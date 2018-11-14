@@ -1,6 +1,6 @@
 Dependencies for Project 'LED', Target 'LED': (DO NOT MODIFY !)
 F (.\main.c)(0x5BE833F6)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\inc -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\include-I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DUSE_HAL_DRIVER -DSTM32F427xx --C99-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
-I (..\HARDWARE\inc\includes.h)(0x5BE82763)
+I (..\HARDWARE\inc\includes.h)(0x5BEC41C0)
 I (..\SYSTEM\sys\sys.h)(0x5BE6FA48)
 I (..\USER\stm32f4xx.h)(0x5710F967)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f427xx.h)(0x5822CD6A)
@@ -88,6 +88,7 @@ I (..\FreeRTOS\include\timers.h)(0x5B92F2C9)
 I (..\FreeRTOS\include\semphr.h)(0x5B92F2C8)
 I (..\FreeRTOS\include\queue.h)(0x5B92F2C8)
 I (..\HARDWARE\inc\sysInit.h)(0x5BE829B9)
+I (..\HARDWARE\inc\iic.h)(0x5BEC4515)
 F (.\stm32f4xx_it.c)(0x5BE838EC)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\inc -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\include-I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DUSE_HAL_DRIVER -DSTM32F427xx --C99-o ..\obj\stm32f4xx_it.o --omf_browse ..\obj\stm32f4xx_it.crf --depend ..\obj\stm32f4xx_it.d)
 I (main.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5710F967)
@@ -237,7 +238,7 @@ F (..\CORE\core_cmFunc.h)(0x5710F967)()
 F (..\CORE\core_cmInstr.h)(0x5710F967)()
 F (..\CORE\core_cmSimd.h)(0x5710F967)()
 F (..\CORE\startup_stm32f427x.s)(0x582097A0)(--cpu Cortex-M4.fp -g --apcs=interwork -I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 523" --pd "STM32F427xx SETA 1"--list ..\obj\startup_stm32f427x.lst --xref -o ..\obj\startup_stm32f427x.o --depend ..\obj\startup_stm32f427x.d)
-F (..\HALLIB\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c)(0x5710F967)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\inc -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\include-I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DUSE_HAL_DRIVER -DSTM32F427xx --C99-o ..\obj\stm32f4xx_hal.o --omf_browse ..\obj\stm32f4xx_hal.crf --depend ..\obj\stm32f4xx_hal.d)
+F (..\HALLIB\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c)(0x5BEC41BE)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\inc -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\include-I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DUSE_HAL_DRIVER -DSTM32F427xx --C99-o ..\obj\stm32f4xx_hal.o --omf_browse ..\obj\stm32f4xx_hal.crf --depend ..\obj\stm32f4xx_hal.d)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5710F967)
 I (..\USER\stm32f4xx_hal_conf.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x5710F967)
@@ -1313,7 +1314,7 @@ I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h)(0x5710F967)
-I (..\HARDWARE\inc\includes.h)(0x5BE82763)
+I (..\HARDWARE\inc\includes.h)(0x5BEC41C0)
 I (..\SYSTEM\delay\delay.h)(0x5710F967)
 I (..\SYSTEM\usart\usart.h)(0x5754F9B6)
 I (..\FreeRTOS\include\FreeRTOS.h)(0x5B92F2C8)
@@ -1330,6 +1331,7 @@ I (..\FreeRTOS\include\timers.h)(0x5B92F2C9)
 I (..\FreeRTOS\include\semphr.h)(0x5B92F2C8)
 I (..\FreeRTOS\include\queue.h)(0x5B92F2C8)
 I (..\HARDWARE\inc\sysInit.h)(0x5BE829B9)
+I (..\HARDWARE\inc\iic.h)(0x5BEC4515)
 F (..\HARDWARE\src\sysInit.c)(0x5BE82763)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\inc -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\include-I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DUSE_HAL_DRIVER -DSTM32F427xx --C99-o ..\obj\sysinit.o --omf_browse ..\obj\sysinit.crf --depend ..\obj\sysinit.d)
 I (..\HARDWARE\inc\sysInit.h)(0x5BE829B9)
 I (..\SYSTEM\sys\sys.h)(0x5BE6FA48)
@@ -1402,7 +1404,7 @@ I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x5710F967)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h)(0x5710F967)
-I (..\HARDWARE\inc\includes.h)(0x5BE82763)
+I (..\HARDWARE\inc\includes.h)(0x5BEC41C0)
 I (..\SYSTEM\delay\delay.h)(0x5710F967)
 I (..\SYSTEM\usart\usart.h)(0x5754F9B6)
 I (..\HARDWARE\inc\led.h)(0x5BE831DC)
@@ -1419,6 +1421,97 @@ I (..\FreeRTOS\include\list.h)(0x5B92F2C8)
 I (..\FreeRTOS\include\timers.h)(0x5B92F2C9)
 I (..\FreeRTOS\include\semphr.h)(0x5B92F2C8)
 I (..\FreeRTOS\include\queue.h)(0x5B92F2C8)
+I (..\HARDWARE\inc\iic.h)(0x5BEC4515)
+F (..\HARDWARE\src\iic.c)(0x5BEC4513)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\inc -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\include-I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DUSE_HAL_DRIVER -DSTM32F427xx --C99-o ..\obj\iic.o --omf_browse ..\obj\iic.crf --depend ..\obj\iic.d)
+I (..\HARDWARE\inc\iic.h)(0x5BEC4515)
+I (..\SYSTEM\sys\sys.h)(0x5BE6FA48)
+I (..\USER\stm32f4xx.h)(0x5710F967)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f427xx.h)(0x5822CD6A)
+I (..\CORE\core_cm4.h)(0x5710F967)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x57F606B8)
+I (..\CORE\core_cmInstr.h)(0x5710F967)
+I (..\CORE\cmsis_armcc.h)(0x5710F967)
+I (..\CORE\core_cmFunc.h)(0x5710F967)
+I (..\CORE\core_cmSimd.h)(0x5710F967)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x5822CD6A)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5710F967)
+I (..\USER\stm32f4xx_hal_conf.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\Legacy/stm32_hal_legacy.h)(0x5710F967)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F606B8)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_gpio.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_gpio_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dma.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dma_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_cortex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_adc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_adc_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_can.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_crc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_cryp.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dma2d.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dac.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dac_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dcmi.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dcmi_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_eth.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sram.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fmc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nor.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nand.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pccard.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sdram.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hash.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2c.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2c_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2s.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2s_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_iwdg.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rng.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_sdmmc.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_spi.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_usart.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_irda.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_smartcard.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_wwdg.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x5710F967)
+I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h)(0x5710F967)
+I (..\HARDWARE\inc\includes.h)(0x5BEC41C0)
+I (..\SYSTEM\delay\delay.h)(0x5710F967)
+I (..\SYSTEM\usart\usart.h)(0x5754F9B6)
+I (..\HARDWARE\inc\led.h)(0x5BE831DC)
+I (..\FreeRTOS\include\FreeRTOS.h)(0x5B92F2C8)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x57F606B8)
+I (..\FreeRTOS\include\FreeRTOSConfig.h)(0x5BE6FE51)
+I (..\FreeRTOS\include\projdefs.h)(0x5B92F2C8)
+I (..\FreeRTOS\include\portable.h)(0x5B92F2C8)
+I (..\FreeRTOS\include\deprecated_definitions.h)(0x5B92F2C8)
+I (..\FreeRTOS\portable\RVDS\ARM_CM4F\portmacro.h)(0x5BE8247F)
+I (..\FreeRTOS\include\mpu_wrappers.h)(0x5B92F2C8)
+I (..\FreeRTOS\include\task.h)(0x5B92F9BF)
+I (..\FreeRTOS\include\list.h)(0x5B92F2C8)
+I (..\FreeRTOS\include\timers.h)(0x5B92F2C9)
+I (..\FreeRTOS\include\semphr.h)(0x5B92F2C8)
+I (..\FreeRTOS\include\queue.h)(0x5B92F2C8)
+I (..\HARDWARE\inc\sysInit.h)(0x5BE829B9)
 F (..\readme.txt)(0x577132B9)()
 F (..\FreeRTOS\croutine.c)(0x5B92F2CA)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\inc -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\include-I.\RTE\_LED-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F427xx -DUSE_HAL_DRIVER -DSTM32F427xx --C99-o ..\obj\croutine.o --omf_browse ..\obj\croutine.crf --depend ..\obj\croutine.d)
 I (..\FreeRTOS\include\FreeRTOS.h)(0x5B92F2C8)

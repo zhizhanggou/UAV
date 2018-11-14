@@ -88,3 +88,4 @@
 ..\obj\sysinit.o: ..\FreeRTOS\include\timers.h
 ..\obj\sysinit.o: ..\FreeRTOS\include\semphr.h
 ..\obj\sysinit.o: ..\FreeRTOS\include\queue.h
+..\obj\sysinit.o: ..\HARDWARE\inc\iic.h

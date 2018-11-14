@@ -88,3 +88,4 @@
 ..\obj\led.o: ..\FreeRTOS\include\semphr.h
 ..\obj\led.o: ..\FreeRTOS\include\queue.h
 ..\obj\led.o: ..\HARDWARE\inc\sysInit.h
+..\obj\led.o: ..\HARDWARE\inc\iic.h
