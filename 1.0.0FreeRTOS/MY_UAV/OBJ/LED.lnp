@@ -19,7 +19,6 @@
 "..\obj\usart.o"
 "..\obj\led.o"
 "..\obj\sysinit.o"
-"..\obj\iic.o"
 "..\obj\croutine.o"
 "..\obj\event_groups.o"
 "..\obj\list.o"
