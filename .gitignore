@@ -12,8 +12,8 @@
    
 *.dep
   
-*.uvgui.
-*
+*.uvgui.*
+
 JLinkLog.txt
   
 *.o
