@@ -25,7 +25,7 @@ void startTask(void *arg)
 	vTaskDelete(startTaskHandle);										/*删除开始任务*/
 		
 	taskEXIT_CRITICAL();	/*退出临界区*/
-} 
+}  
 
 
 
