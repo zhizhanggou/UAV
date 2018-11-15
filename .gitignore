@@ -27,7 +27,11 @@ JLinkLog.txt
 *.axf
 
 *.hex
-   *.lnp
-   *.sct
-   *.__i
-   *.htm
+  
+ *.lnp
+  
+ *.sct
+  
+ *.__i
+  
+ *.htm
