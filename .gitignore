@@ -1,1 +1,20 @@
-安富莱_STM32-V5开发板_FreeRTOS教程（V1.0）.pdf
+﻿安富莱_STM32-V5开发板_FreeRTOS教程（V1.0）.pdf
+
+!*.c 
+!*.h
+   *.log
+   *.plg
+   *.bak
+   *.dep
+   *.uvgui.*
+   JLinkLog.txt
+   *.o
+   *.d
+   *.crf
+   *.tra
+   *.axf
+   *.hex
+   *.lnp
+   *.sct
+   *.__i
+   *.htm
