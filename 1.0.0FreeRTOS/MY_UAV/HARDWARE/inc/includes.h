@@ -1,4 +1,5 @@
 #include "sys.h"
+#include <stdbool.h>
 #include "delay.h"
 #include "usart.h"
 #include "led.h"
