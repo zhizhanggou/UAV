@@ -534,6 +534,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\src\mpu9250.c</FilePath>
             </File>
+            <File>
+              <FileName>SWJ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\src\SWJ.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

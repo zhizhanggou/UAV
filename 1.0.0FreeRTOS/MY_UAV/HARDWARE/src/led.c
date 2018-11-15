@@ -54,11 +54,13 @@ void vTaskLED(void *pvParameters)
 {
     while(1)
     {
-		ledCtrl(LED1,LED_ON);
-        delay_ms(200);
-		ledCtrl(LED1,LED_OFF);
-		delay_ms(200);
+//		ledCtrl(LED1,LED_ON);
+//        delay_ms(200);
+//		ledCtrl(LED1,LED_OFF);
+//		delay_ms(200);
         //vTaskDelay(200);
+		 READ_MPU9250_ACCEL();
+		 vTaskDelay(5);
     }
 }
 
