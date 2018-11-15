@@ -20,6 +20,7 @@
 "..\obj\led.o"
 "..\obj\sysinit.o"
 "..\obj\iic.o"
+"..\obj\mpu9250.o"
 "..\obj\croutine.o"
 "..\obj\event_groups.o"
 "..\obj\list.o"
@@ -29,7 +30,7 @@
 "..\obj\timers.o"
 "..\obj\port.o"
 "..\obj\heap_4.o"
---strict --scatter "..\OBJ\LED.sct"
+--library_type=microlib --strict --scatter "..\OBJ\LED.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "..\OBJ\LED.map" -o ..\OBJ\LED.axf

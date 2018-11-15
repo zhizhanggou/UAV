@@ -1,34 +1,82 @@
 #include "iic.h"
 #include "includes.h"
-
-iic mpu9250_iic;
-iic ms5611_iic;
+#include <assert.h>
 
 /***********定义IIC端口**********/
 
-iic iicNo1PortDef()
+iic iicPortDef(GPIO_TypeDef *sclGPIOx,uint16_t sclPort,GPIO_TypeDef *sdaGPIOx,uint16_t sdaPort)
 {
-   iic iicNo1;
-   iicNo1.sclPort=GPIO_PIN_3;
-   iicNo1.sdaPort=GPIO_PIN_4;
-   iicNo1.iic_Port=GPIOD;
-	iicNo1.iicSCLPortNum=3;
-	iicNo1.iicSDAPortNum=4;
-	mpu9250_iic=iicNo1;    //将接口信息赋给MPU9250
-   __HAL_RCC_GPIOD_CLK_ENABLE();           
-   return iicNo1;
-}
-iic iicNo2PortDef()
-{
-   iic iicNo2;
-   iicNo2.sclPort=GPIO_PIN_0;
-   iicNo2.sdaPort=GPIO_PIN_1;
-   iicNo2.iic_Port=GPIOD;  
-	iicNo2.iicSCLPortNum=0;
-	iicNo2.iicSDAPortNum=1;
-	ms5611_iic=iicNo2;		//将接口信息赋给MS5611
-   __HAL_RCC_GPIOD_CLK_ENABLE();         
-   return iicNo2;
+   iic iicTemp;
+   iicTemp.sclPort=sclPort;
+   iicTemp.sdaPort=sdaPort;
+   iicTemp.iic_sclPort=sclGPIOx;
+	iicTemp.iic_sdaPort=sdaGPIOx;
+	switch(sclPort)
+	{
+		case GPIO_PIN_0:iicTemp.iicSCLPortNum=0; break;
+		case GPIO_PIN_1:iicTemp.iicSCLPortNum=1; break;
+		case GPIO_PIN_2:iicTemp.iicSCLPortNum=2; break;
+		case GPIO_PIN_3:iicTemp.iicSCLPortNum=3; break;
+		case GPIO_PIN_4:iicTemp.iicSCLPortNum=4; break;
+		case GPIO_PIN_5:iicTemp.iicSCLPortNum=5; break;
+		case GPIO_PIN_6:iicTemp.iicSCLPortNum=6; break;
+		case GPIO_PIN_7:iicTemp.iicSCLPortNum=7; break;
+		case GPIO_PIN_8:iicTemp.iicSCLPortNum=8; break;
+		case GPIO_PIN_9:iicTemp.iicSCLPortNum=9; break;
+		case GPIO_PIN_10:iicTemp.iicSCLPortNum=10; break;
+		case GPIO_PIN_11:iicTemp.iicSCLPortNum=11; break;
+		case GPIO_PIN_12:iicTemp.iicSCLPortNum=12; break;
+		case GPIO_PIN_13:iicTemp.iicSCLPortNum=13; break;
+		case GPIO_PIN_14:iicTemp.iicSCLPortNum=14; break;
+		case GPIO_PIN_15:iicTemp.iicSCLPortNum=15; break;
+		default: assert(0); //如果不是这些端口则断言,终止程序运行
+	}
+		switch(sdaPort)
+	{
+		case GPIO_PIN_0:iicTemp.iicSDAPortNum=0; break;
+		case GPIO_PIN_1:iicTemp.iicSDAPortNum=1; break;
+		case GPIO_PIN_2:iicTemp.iicSDAPortNum=2; break;
+		case GPIO_PIN_3:iicTemp.iicSDAPortNum=3; break;
+		case GPIO_PIN_4:iicTemp.iicSDAPortNum=4; break;
+		case GPIO_PIN_5:iicTemp.iicSDAPortNum=5; break;
+		case GPIO_PIN_6:iicTemp.iicSDAPortNum=6; break;
+		case GPIO_PIN_7:iicTemp.iicSDAPortNum=7; break;
+		case GPIO_PIN_8:iicTemp.iicSDAPortNum=8; break;
+		case GPIO_PIN_9:iicTemp.iicSDAPortNum=9; break;
+		case GPIO_PIN_10:iicTemp.iicSDAPortNum=10; break;
+		case GPIO_PIN_11:iicTemp.iicSDAPortNum=11; break;
+		case GPIO_PIN_12:iicTemp.iicSDAPortNum=12; break;
+		case GPIO_PIN_13:iicTemp.iicSDAPortNum=13; break;
+		case GPIO_PIN_14:iicTemp.iicSDAPortNum=14; break;
+		case GPIO_PIN_15:iicTemp.iicSDAPortNum=15; break;
+		default: assert(0); //如果不是这些端口则断言,终止程序运行
+	}
+	
+		switch((uint32_t)sclGPIOx)
+	{
+		case (uint32_t)GPIOA:__HAL_RCC_GPIOA_CLK_ENABLE(); break;
+		case (uint32_t)GPIOB:__HAL_RCC_GPIOB_CLK_ENABLE(); break;
+		case (uint32_t)GPIOC:__HAL_RCC_GPIOC_CLK_ENABLE(); break;
+		case (uint32_t)GPIOD:__HAL_RCC_GPIOD_CLK_ENABLE(); break;
+		case (uint32_t)GPIOE:__HAL_RCC_GPIOE_CLK_ENABLE(); break;
+		case (uint32_t)GPIOF:__HAL_RCC_GPIOF_CLK_ENABLE(); break;
+		case (uint32_t)GPIOG:__HAL_RCC_GPIOG_CLK_ENABLE(); break;
+		default: assert(0); //如果不是这些端口则断言,终止程序运行
+	}
+		switch((uint32_t)sdaGPIOx)
+	{
+		case (uint32_t)GPIOA:__HAL_RCC_GPIOA_CLK_ENABLE(); break;
+		case (uint32_t)GPIOB:__HAL_RCC_GPIOB_CLK_ENABLE(); break;
+		case (uint32_t)GPIOC:__HAL_RCC_GPIOC_CLK_ENABLE(); break;
+		case (uint32_t)GPIOD:__HAL_RCC_GPIOD_CLK_ENABLE(); break;
+		case (uint32_t)GPIOE:__HAL_RCC_GPIOE_CLK_ENABLE(); break;
+		case (uint32_t)GPIOF:__HAL_RCC_GPIOF_CLK_ENABLE(); break;
+		case (uint32_t)GPIOG:__HAL_RCC_GPIOG_CLK_ENABLE(); break;
+		default: assert(0); //如果不是这些端口则断言,终止程序运行
+	}
+	
+              
+   return iicTemp;
 }
 /*******************************/
 
@@ -39,70 +87,76 @@ void iicSingleInit(iic iicPort)
 {
    GPIO_InitTypeDef GPIO_Initure;
    
-   GPIO_Initure.Pin = iicPort.sclPort | iicPort.sdaPort;
+   GPIO_Initure.Pin = iicPort.sclPort;
    GPIO_Initure.Mode = GPIO_MODE_OUTPUT_PP;//推挽输出
    GPIO_Initure.Speed = GPIO_SPEED_HIGH;//100MHz
    GPIO_Initure.Pull = GPIO_PULLUP;//上拉
-   HAL_GPIO_Init(iicPort.iic_Port,&GPIO_Initure);
+   HAL_GPIO_Init(iicPort.iic_sclPort,&GPIO_Initure);
+	
+	GPIO_Initure.Pin = iicPort.sdaPort;
+   GPIO_Initure.Mode = GPIO_MODE_OUTPUT_PP;//推挽输出
+   GPIO_Initure.Speed = GPIO_SPEED_HIGH;//100MHz
+   GPIO_Initure.Pull = GPIO_PULLUP;//上拉
+   HAL_GPIO_Init(iicPort.iic_sdaPort,&GPIO_Initure);
 }
-void iicInit()
-{
-   iicSingleInit(iicNo1PortDef());
-	iicSingleInit(iicNo2PortDef());
-}
+
+
+
+
+
 
 
 
 void SDA_IN(iic iicPort)  
 {
-	iicPort.iic_Port->MODER&=~(3<<(iicPort.iicSDAPortNum*2));
-	iicPort.iic_Port->MODER|=0<<iicPort.iicSDAPortNum*2;
+	iicPort.iic_sdaPort->MODER&=~(3<<(iicPort.iicSDAPortNum*2));
+	iicPort.iic_sdaPort->MODER|=0<<iicPort.iicSDAPortNum*2;
 }	
 void SDA_OUT(iic iicPort)  
 {
-	iicPort.iic_Port->MODER&=~(3<<(iicPort.iicSDAPortNum*2));
-	iicPort.iic_Port->MODER|=1<<iicPort.iicSDAPortNum*2;
+	iicPort.iic_sdaPort->MODER&=~(3<<(iicPort.iicSDAPortNum*2));
+	iicPort.iic_sdaPort->MODER|=1<<iicPort.iicSDAPortNum*2;
 }	
 
 void IIC_SCL(iic iicPort,bool level)
 {
-	switch((uint32_t)iicPort.iic_Port)
+	switch((uint32_t)iicPort.iic_sclPort)
 	{
-		case (uint32_t)GPIOA: PAout(iicPort.iicSCLPortNum)=level;
-		case (uint32_t)GPIOB: PBout(iicPort.iicSCLPortNum)=level; 
-		case (uint32_t)GPIOC: PCout(iicPort.iicSCLPortNum)=level;
-		case (uint32_t)GPIOD: PDout(iicPort.iicSCLPortNum)=level; 
-		case (uint32_t)GPIOE: PEout(iicPort.iicSCLPortNum)=level; 
-		case (uint32_t)GPIOF: PFout(iicPort.iicSCLPortNum)=level; 
-		case (uint32_t)GPIOG: PGout(iicPort.iicSCLPortNum)=level; 
+		case (uint32_t)GPIOA: PAout(iicPort.iicSCLPortNum)=level; break;
+		case (uint32_t)GPIOB: PBout(iicPort.iicSCLPortNum)=level; break;
+		case (uint32_t)GPIOC: PCout(iicPort.iicSCLPortNum)=level; break;
+		case (uint32_t)GPIOD: PDout(iicPort.iicSCLPortNum)=level; break;
+		case (uint32_t)GPIOE: PEout(iicPort.iicSCLPortNum)=level; break;
+		case (uint32_t)GPIOF: PFout(iicPort.iicSCLPortNum)=level; break;
+		case (uint32_t)GPIOG: PGout(iicPort.iicSCLPortNum)=level; break;
 	}
 }
 
 void IIC_SDA(iic iicPort,bool level)
 {
-	switch((uint32_t)iicPort.iic_Port)
+	switch((uint32_t)iicPort.iic_sdaPort)
 	{
-		case (uint32_t)GPIOA: PAout(iicPort.iicSDAPortNum)=level; 
-		case (uint32_t)GPIOB: PBout(iicPort.iicSDAPortNum)=level; 
-		case (uint32_t)GPIOC: PCout(iicPort.iicSDAPortNum)=level; 
-		case (uint32_t)GPIOD: PDout(iicPort.iicSDAPortNum)=level;
-		case (uint32_t)GPIOE: PEout(iicPort.iicSDAPortNum)=level;
-		case (uint32_t)GPIOF: PFout(iicPort.iicSDAPortNum)=level; 
-		case (uint32_t)GPIOG: PGout(iicPort.iicSDAPortNum)=level; 
+		case (uint32_t)GPIOA: PAout(iicPort.iicSDAPortNum)=level; break;
+		case (uint32_t)GPIOB: PBout(iicPort.iicSDAPortNum)=level; break;
+		case (uint32_t)GPIOC: PCout(iicPort.iicSDAPortNum)=level; break;
+		case (uint32_t)GPIOD: PDout(iicPort.iicSDAPortNum)=level; break;
+		case (uint32_t)GPIOE: PEout(iicPort.iicSDAPortNum)=level; break;
+		case (uint32_t)GPIOF: PFout(iicPort.iicSDAPortNum)=level; break;
+		case (uint32_t)GPIOG: PGout(iicPort.iicSDAPortNum)=level; break;
 	}
 }
 uint8_t IIC_READ_SDA(iic iicPort)
 {
 	uint8_t temp=0;
-		switch((uint32_t)iicPort.iic_Port)
+		switch((uint32_t)iicPort.iic_sdaPort)
 	{
-		case (uint32_t)GPIOA: temp=PAin(iicPort.iicSDAPortNum);
-		case (uint32_t)GPIOB: temp=PBin(iicPort.iicSDAPortNum);
-		case (uint32_t)GPIOC: temp=PCin(iicPort.iicSDAPortNum);
-		case (uint32_t)GPIOD: temp=PDin(iicPort.iicSDAPortNum);
-		case (uint32_t)GPIOE: temp=PEin(iicPort.iicSDAPortNum); 
-		case (uint32_t)GPIOF: temp=PFin(iicPort.iicSDAPortNum);
-		case (uint32_t)GPIOG: temp=PGin(iicPort.iicSDAPortNum);
+		case (uint32_t)GPIOA: temp=PAin(iicPort.iicSDAPortNum); break;
+		case (uint32_t)GPIOB: temp=PBin(iicPort.iicSDAPortNum); break;
+		case (uint32_t)GPIOC: temp=PCin(iicPort.iicSDAPortNum); break;
+		case (uint32_t)GPIOD: temp=PDin(iicPort.iicSDAPortNum); break;
+		case (uint32_t)GPIOE: temp=PEin(iicPort.iicSDAPortNum); break;
+		case (uint32_t)GPIOF: temp=PFin(iicPort.iicSDAPortNum); break;
+		case (uint32_t)GPIOG: temp=PGin(iicPort.iicSDAPortNum); break;
 	}
 	return temp;
 }

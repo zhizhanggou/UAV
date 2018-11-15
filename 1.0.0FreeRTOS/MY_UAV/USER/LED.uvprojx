@@ -186,7 +186,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -528,6 +528,11 @@
               <FileName>iic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\src\iic.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu9250.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\src\mpu9250.c</FilePath>
             </File>
           </Files>
         </Group>
