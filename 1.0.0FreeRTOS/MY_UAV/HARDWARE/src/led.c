@@ -15,6 +15,7 @@
 
 //初始化PE14\15为输出.并使能时钟	    
 //LED IO初始化
+
 void LED_Init(void)
 {
     GPIO_InitTypeDef GPIO_Initure;
@@ -50,17 +51,5 @@ void ledCtrl(led Led,ledStatus LedStatus)
    
 }
 
-void vTaskLED(void *pvParameters)
-{
-    while(1)
-    {
-//		ledCtrl(LED1,LED_ON);
-//        delay_ms(200);
-//		ledCtrl(LED1,LED_OFF);
-//		delay_ms(200);
-        //vTaskDelay(200);
-		 READ_MPU9250_ACCEL();
-		 vTaskDelay(5);
-    }
-}
+
 

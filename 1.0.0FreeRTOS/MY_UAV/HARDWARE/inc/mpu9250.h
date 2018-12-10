@@ -72,11 +72,12 @@ typedef struct motionProcessing
 	short MAG_Y;
 	short MAG_Z;
 }motionProcessing;
-
+extern motionProcessing mpu9250_OriginalData; //ԭʼֵ
 u8 MPU9250_IIC_Read(iic iicPort,u8 Slaveaddress,u8 REG_Address);
 void MPU9250_IIC_Write(iic iicPort,u8 Slaveaddress,u8 REG_Address,u8 REG_data);
 void READ_MPU9250_GYRO(void);
 void READ_MPU9250_ACCEL(void);
+void READ_MPU9250_MAG(void);
 void mpu9250_Init(void);
 
 #endif

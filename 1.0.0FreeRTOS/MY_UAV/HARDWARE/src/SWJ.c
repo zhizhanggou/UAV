@@ -13,13 +13,13 @@ uint8_t TxCounter1;
 uint8_t TxLen=25; 
 uint8_t *TXS;
 u8 i;
-void Uart1_Put_Buf(unsigned char *DataToSend , u8 data_num)
-{
-	for(i=0;i<data_num;i++)
-		TxBuffer[count++] = *(DataToSend+i);
-	if(!(USART1->CR1 & USART_CR1_TXEIE))
-		HAL_UART_Transmit_IT(&UART1_Handler, USART_IT_TXE, ENABLE); 
-}
+//void Uart1_Put_Buf(unsigned char *DataToSend , u8 data_num)
+//{
+//	for(i=0;i<data_num;i++)
+//		TxBuffer[count++] = *(DataToSend+i);
+//	if(!(USART1->CR1 & USART_CR1_TXEIE))
+//		HAL_UART_Transmit_IT(&UART1_Handler, USART_IT_TXE, ENABLE); 
+//}
 void Send_RCData(HMI_data data,float angle_rol, float angle_pit, float angle_yaw, s32 alt, u8 fly_model, u8 armed)
 {
 	u8 data_to_send[100];
@@ -137,18 +137,17 @@ void Send_RCData(HMI_data data,float angle_rol, float angle_pit, float angle_yaw
 //	data_to_send[_cnt++]=0;
 //	data_to_send[_cnt++]=0;
 //	data_to_send[state_count1+3] = _cnt-state_count1-4;
+//	
+//	sum = 0;
+//	for(u8 i=state_count1;i<_cnt;i++)
+//		sum += data_to_send[i];
+//	
+//	data_to_send[_cnt++]=sum;
+
 	
-	sum = 0;
-	for(u8 i=state_count1;i<_cnt;i++)
-		sum += data_to_send[i];
-	
-	data_to_send[_cnt++]=sum;
-	//SendBytesInfoProc(data_to_send,_cnt);
-		TXS=(uint8_t *)data_to_send;   //?TXS?TxBuffer1
-    TxCounter1=0; 
-		USART_ITConfig(USART1, USART_IT_TXE,ENABLE);   //??TXE??,???????
-		while(TxCounter1!=TxLen);   //??????
-		Uart1_Put_Buf(data_to_send, _cnt);
+   UART1DMA_USART_Transmit(&UART1_Handler,(uint8_t *)data_to_send,_cnt);
+//      HAL_UART_Transmit(&UART1_Handler,(uint8_t*)data_to_send,_cnt,1000);	//发送接收到的数据
+//      while(__HAL_UART_GET_FLAG(&UART1_Handler,UART_FLAG_TC)!=SET);		//等待发送结束
 
 	
 }

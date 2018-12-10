@@ -394,6 +394,11 @@
               <FileType>1</FileType>
               <FilePath>.\system_stm32f4xx.c</FilePath>
             </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\task.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

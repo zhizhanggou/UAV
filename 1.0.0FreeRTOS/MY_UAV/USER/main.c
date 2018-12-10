@@ -3,14 +3,17 @@
  
 
 /*下面主函数是使用HAL库函数实现控制IO口输出*/
+
 TaskHandle_t startTaskHandle;
 static void startTask(void *arg);
+static void AppObjCreate (void);
 int main(void)
 {
   
    sysInit();
   // taskENTER_CRITICAL();
    xTaskCreate(startTask, "START_TASK", 300, NULL, 2, &startTaskHandle);	/*创建起始任务*/
+   AppObjCreate (); //
    vTaskStartScheduler();	/*开启任务调度*/
    while(1){};
   // taskEXIT_CRITICAL();	/*退出临界区*/
@@ -21,12 +24,26 @@ void startTask(void *arg)
 {
 	taskENTER_CRITICAL();	/*进入临界区*/
 	
-   xTaskCreate(vTaskLED, "vTaskLED", 150, NULL, 3, NULL);
+   xTaskCreate(vTaskDataUpload, "vTaskDataUpload", 150, NULL, 5, NULL);
+   xTaskCreate(vTaskAttitudeAlgorithm, "vTaskAttitudeAlgorithm", 150, NULL, 4, NULL);
 	vTaskDelete(startTaskHandle);										/*删除开始任务*/
 		
 	taskEXIT_CRITICAL();	/*退出临界区*/
 }  
 
+
+/*******************************
+创建任务通讯机制
+*******************************/
+static void AppObjCreate (void)
+{
+/* 创建事件标志组 */
+   xCreatedEventGroup = xEventGroupCreate();
+   if(xCreatedEventGroup == NULL)
+   {
+      /* 没有创建成功，用户可以在这里加入创建失败的处理机制 */
+   }
+}
 
 
 

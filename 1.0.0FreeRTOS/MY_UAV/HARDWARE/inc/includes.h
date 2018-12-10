@@ -11,3 +11,5 @@
 #include "iic.h"
 #include "mpu9250.h"
 #include "SWJ.h"
+#include "task.h"
+#include "event_groups.h"

@@ -29,5 +29,4 @@ typedef enum{
 }ledStatus;
 void LED_Init(void);
 void ledCtrl(led Led,ledStatus LedStatus);
-void vTaskLED(void *pvParameters);
 #endif
