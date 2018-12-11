@@ -23,6 +23,7 @@
 "..\obj\iic.o"
 "..\obj\mpu9250.o"
 "..\obj\swj.o"
+"..\obj\sensors.o"
 "..\obj\croutine.o"
 "..\obj\event_groups.o"
 "..\obj\list.o"

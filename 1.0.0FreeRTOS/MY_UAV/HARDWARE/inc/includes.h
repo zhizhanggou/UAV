@@ -13,3 +13,5 @@
 #include "SWJ.h"
 #include "task.h"
 #include "event_groups.h"
+#include "sensors.h"
+

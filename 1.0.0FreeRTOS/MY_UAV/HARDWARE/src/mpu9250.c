@@ -3,6 +3,7 @@
 
 iic mpu9250_iic;
 motionProcessing mpu9250_OriginalData; //原始值
+
 unsigned int ASA[3]={0};
 
 void mpu9250_Init()
@@ -74,3 +75,4 @@ void READ_MPU9250_MAG(void)
 		mpu9250_OriginalData.MAG_Z=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_H)<<8));
 		MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0X01);		//设置AK8963为单次测量模式 14bit精度
 }
+

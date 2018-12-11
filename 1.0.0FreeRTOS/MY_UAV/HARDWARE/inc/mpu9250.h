@@ -62,15 +62,15 @@ typedef enum
 
 typedef struct motionProcessing
 {
-	short ACC_X;
-	short ACC_Y;
-	short ACC_Z;
-	short GYRO_X;
-	short GYRO_Y;
-	short GYRO_Z;
-	short MAG_X;
-	short MAG_Y;
-	short MAG_Z;
+	int16_t ACC_X;
+	int16_t ACC_Y;
+	int16_t ACC_Z;
+	int16_t GYRO_X;
+	int16_t GYRO_Y;
+	int16_t GYRO_Z;
+	int16_t MAG_X;
+	int16_t MAG_Y;
+	int16_t MAG_Z;
 }motionProcessing;
 extern motionProcessing mpu9250_OriginalData; //ԭʼֵ
 u8 MPU9250_IIC_Read(iic iicPort,u8 Slaveaddress,u8 REG_Address);

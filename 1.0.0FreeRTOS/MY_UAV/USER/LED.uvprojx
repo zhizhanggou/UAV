@@ -544,6 +544,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\src\SWJ.c</FilePath>
             </File>
+            <File>
+              <FileName>sensors.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\src\sensors.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

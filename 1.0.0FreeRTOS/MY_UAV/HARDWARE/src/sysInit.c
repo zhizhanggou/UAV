@@ -7,6 +7,7 @@ void sysInit()
 	delay_init(180);                //初始化延时函数
 	uart_init(500000);
 	LED_Init();                     //初始化LED  
-	mpu9250_Init();
+	mpu9250_Init();						//9250初始化
+	sensorsQueueInit();					//传感器消息队列初始化
 	
 }

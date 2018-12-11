@@ -14,6 +14,10 @@ void vTaskAttitudeAlgorithm(void *pvParameters)
 
 
 
+
+/******************************************
+传感器读取任务
+******************************************/
 void vTaskReadSenser(void *pvParameters)
 {
    while(1)

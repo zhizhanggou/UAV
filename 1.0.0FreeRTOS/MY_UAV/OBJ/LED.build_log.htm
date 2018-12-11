@@ -22,26 +22,30 @@ Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
 E:\ËÄÖá\Èí¼þ\The_Annoying_Dog\UAV\1.0.0FreeRTOS\MY_UAV\USER\LED.uvprojx
-Project File Date:  11/29/2018
+Project File Date:  12/09/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'LED'
-compiling task.c...
-task.c(73): warning:  #1-D: last line of file ends without a newline
+compiling sensors.c...
+..\HARDWARE\src\sensors.c(52): warning:  #940-D: missing return statement at end of non-void function "getGyroBias" 
   }
-task.c: 1 warning, 0 errors
+..\HARDWARE\src\sensors.c(4): warning:  #550-D: variable "imuDataQueue"  was set but never used
+  static xQueueHandle imuDataQueue;
+..\HARDWARE\src\sensors.c(5): warning:  #177-D: variable "baroDataQueue"  was declared but never referenced
+  static xQueueHandle baroDataQueue;
+..\HARDWARE\src\sensors.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=15440 RO-data=484 RW-data=152 ZI-data=78568  
+Program Size: Code=15468 RO-data=484 RW-data=164 ZI-data=80388  
 FromELF: creating hex file...
-"..\OBJ\LED.axf" - 0 Error(s), 1 Warning(s).
+"..\OBJ\LED.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_LED
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>
