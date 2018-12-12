@@ -32,23 +32,18 @@ void LED_Init(void)
 }
 
 
-void ledCtrl(led Led,ledStatus LedStatus)
+void ledFlash(int onTime,int offTime)
 {
-   if(LedStatus==LED_ON)
+   if(onTime!=0)
    {
-      if(Led==LED1)
-         HAL_GPIO_WritePin(GPIOE,GPIO_PIN_14,GPIO_PIN_SET);	
-      else if(Led==LED2)
-         HAL_GPIO_WritePin(GPIOE,GPIO_PIN_15,GPIO_PIN_SET);
+      HAL_GPIO_WritePin(GPIOE,GPIO_PIN_14,GPIO_PIN_SET);
+      vTaskDelay(onTime);
    }
-   else if(LedStatus==LED_OFF)
+   if(offTime!=0)
    {
-      if(Led==LED1)
-         HAL_GPIO_WritePin(GPIOE,GPIO_PIN_14,GPIO_PIN_RESET);	
-      else if(Led==LED2)
-         HAL_GPIO_WritePin(GPIOE,GPIO_PIN_15,GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(GPIOE,GPIO_PIN_14,GPIO_PIN_RESET);	
+      vTaskDelay(offTime);
    }
-   
 }
 
 

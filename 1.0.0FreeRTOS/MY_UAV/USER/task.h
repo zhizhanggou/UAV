@@ -7,4 +7,6 @@ extern EventGroupHandle_t xCreatedEventGroup;
 
 void vTaskDataUpload(void *pvParameters);
 void vTaskAttitudeAlgorithm(void *pvParameters);
+void vTaskReadSenser(void *pvParameters);
+void vTaskIndicatorLED(void *pvParameters);
 #endif

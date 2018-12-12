@@ -3,6 +3,7 @@
 
 #include "sys.h"
 #include "iic.h"
+#include "includes.h"
 
 
 //AK8963的内部寄存器
@@ -60,19 +61,7 @@ typedef enum
 	Z=2
 }axis;
 
-typedef struct motionProcessing
-{
-	int16_t ACC_X;
-	int16_t ACC_Y;
-	int16_t ACC_Z;
-	int16_t GYRO_X;
-	int16_t GYRO_Y;
-	int16_t GYRO_Z;
-	int16_t MAG_X;
-	int16_t MAG_Y;
-	int16_t MAG_Z;
-}motionProcessing;
-extern motionProcessing mpu9250_OriginalData; //原始值
+extern Axis3i16 accOriginalData,gyroOriginalData,magOriginalData;
 u8 MPU9250_IIC_Read(iic iicPort,u8 Slaveaddress,u8 REG_Address);
 void MPU9250_IIC_Write(iic iicPort,u8 Slaveaddress,u8 REG_Address,u8 REG_data);
 void READ_MPU9250_GYRO(void);

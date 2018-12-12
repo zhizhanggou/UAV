@@ -1,8 +1,11 @@
-#include "includes.h"
+
 #include "mpu9250.h"
 
 iic mpu9250_iic;
-motionProcessing mpu9250_OriginalData; //原始值
+
+
+Axis3i16 accOriginalData,gyroOriginalData,magOriginalData;
+
 
 unsigned int ASA[3]={0};
 
@@ -58,21 +61,21 @@ void MPU9250_IIC_Write(iic iicPort,u8 Slaveaddress,u8 REG_Address,u8 REG_data)
 
 void READ_MPU9250_ACCEL(void)
 {   
-	mpu9250_OriginalData.ACC_X=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_XOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_XOUT_H)<<8)); 
-	mpu9250_OriginalData.ACC_Y=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_YOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_YOUT_H)<<8)); 
-	mpu9250_OriginalData.ACC_Z=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_ZOUT_H)<<8)); 	
+	accOriginalData.x=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_XOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_XOUT_H)<<8)); 
+	accOriginalData.y=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_YOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_YOUT_H)<<8)); 
+	accOriginalData.z=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,ACCEL_ZOUT_H)<<8)); 	
 }
 void READ_MPU9250_GYRO(void)
 { 
-	mpu9250_OriginalData.GYRO_X=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_XOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_XOUT_H)<<8)); 
-	mpu9250_OriginalData.GYRO_Y=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_YOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_YOUT_H)<<8)); 
-	mpu9250_OriginalData.GYRO_Z=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_ZOUT_H)<<8)); 
+	gyroOriginalData.x=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_XOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_XOUT_H)<<8)); 
+	gyroOriginalData.y=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_YOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_YOUT_H)<<8)); 
+	gyroOriginalData.z=(MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MPU9250_ADDRESS,GYRO_ZOUT_H)<<8)); 
 }
 void READ_MPU9250_MAG(void)
 { 
-		mpu9250_OriginalData.MAG_X=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_XOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_XOUT_H)<<8)); 
-		mpu9250_OriginalData.MAG_Y=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_YOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_YOUT_H)<<8)); 
-		mpu9250_OriginalData.MAG_Z=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_H)<<8));
-		MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0X01);		//设置AK8963为单次测量模式 14bit精度
+   magOriginalData.x=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_XOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_XOUT_H)<<8)); 
+   magOriginalData.y=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_YOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_YOUT_H)<<8)); 
+   magOriginalData.z=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_H)<<8));
+   MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0X01);		//设置AK8963为单次测量模式 14bit精度
 }
 
