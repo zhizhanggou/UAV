@@ -1,7 +1,7 @@
 #ifndef _TASK_H
 #define _TASK_H
 #include "includes.h"
-#define BIT_0 1<<0
+#define ifSensorsReadFinish 1<<0
 
 extern EventGroupHandle_t xCreatedEventGroup;
 

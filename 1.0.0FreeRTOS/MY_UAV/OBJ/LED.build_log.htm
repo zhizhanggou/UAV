@@ -27,27 +27,58 @@ Project File Date:  12/12/2018
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'LED'
+compiling main.c...
+compiling mpu9250.c...
+compiling sysInit.c...
+compiling SWJ.c...
+compiling delay.c...
+compiling led.c...
+compiling task.c...
+compiling iic.c...
 compiling sensors.c...
-..\HARDWARE\src\sensors.c(5): warning:  #177-D: variable "accDataQueue"  was declared but never referenced
-  static xQueueHandle accDataQueue;
-..\HARDWARE\src\sensors.c(4): warning:  #550-D: variable "gyroDataQueue"  was set but never used
-  static xQueueHandle gyroDataQueue;
 ..\HARDWARE\src\sensors.c(6): warning:  #177-D: variable "magDataQueue"  was declared but never referenced
   static xQueueHandle magDataQueue;
 ..\HARDWARE\src\sensors.c(7): warning:  #177-D: variable "baroDataQueue"  was declared but never referenced
   static xQueueHandle baroDataQueue;
-..\HARDWARE\src\sensors.c: 4 warnings, 0 errors
-linking...
-Program Size: Code=16852 RO-data=484 RW-data=180 ZI-data=80484  
-FromELF: creating hex file...
-"..\OBJ\LED.axf" - 0 Error(s), 4 Warning(s).
+..\HARDWARE\src\sensors.c: 2 warnings, 0 errors
+compiling croutine.c...
+compiling event_groups.c...
+compiling stream_buffer.c...
+compiling port.c...
+compiling timers.c...
+compiling queue.c...
+compiling tasks.c...
+compiling attitudeSolution.c...
+..\HARDWARE\inc\sensors.h(34): error:  #20: identifier "DataProcessed" is undefined
+  extern DataProcessed dataProcessed;
+..\CTRL\src\attitudeSolution.c(117): warning:  #177-D: variable "mag_err"  was declared but never referenced
+  		float mag_err;
+..\CTRL\src\attitudeSolution.c(175): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			Vertically_ACCEL=accel_temp[0]*2*halfvx+accel_temp[1]*2*halfvy+accel_temp[2]*2*halfvz-9.8;//竖直方向总加速度减去重力加速度得到纯运动加速度
+..\CTRL\src\attitudeSolution.c(184): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			Vertically_ACCEL=(accel_temp[0]*2*halfvx+accel_temp[1]*2*halfvy+accel_temp[2]*2*halfvz-9.8-Vertically_ACCEL_Bias/Vertically_ACCEL_Count-Vertically_ACCEL_Dirft)*ACCEL_LOWPASS_Kp+(1.0f-ACCEL_LOWPASS_Kp)*Vertically_ACCEL_Last;//竖直方向总加速度减去重力加速度得到纯运动加速度
+..\CTRL\src\attitudeSolution.c(155): warning:  #177-D: variable "accNorm"  was declared but never referenced
+  		float accNorm=0;
+..\CTRL\src\attitudeSolution.c(283): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		flightStatus.attitude.x=euler[0]* 180.0f / 
+I;
+..\CTRL\src\attitudeSolution.c(284): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		flightStatus.attitude.y=euler[1]* 180.0f / 
+I;
+..\CTRL\src\attitudeSolution.c(285): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		flightStatus.attitude.z=euler[2]* 180.0f / 
+I;
+..\CTRL\src\attitudeSolution.c: 7 warnings, 1 error
+compiling heap_4.c...
+"..\OBJ\LED.axf" - 1 Error(s), 9 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_LED
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:07
+Target not created.
+Build Time Elapsed:  00:00:46
 </pre>
 </body>
 </html>

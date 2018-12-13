@@ -16,11 +16,7 @@ typedef struct
    int16_t z;
 }Axis3i16;
 
-typedef struct 
-{
-   Axis3f variance;
-   Axis3f value;
-}GyroBias;
+
 
 
 #endif

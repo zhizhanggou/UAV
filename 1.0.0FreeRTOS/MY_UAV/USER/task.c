@@ -1,13 +1,25 @@
 #include "task.h"
 EventGroupHandle_t xCreatedEventGroup;
 
-void vTaskAttitudeAlgorithm(void *pvParameters)
+/******************************************
+姿态解算任务
+******************************************/
+void vTaskAttitudeSolution(void *pvParameters)
 {
+   EventBits_t uxBits;
    while(1)
    {
-      //READ_MPU9250_MAG();
+      uxBits = xEventGroupWaitBits(xCreatedEventGroup, /* 事件标志组句柄 */
+                                 ifSensorsReadFinish, /* 等待 bit0 被设置 */
+                                 pdTRUE, /* 退出前 bit0 和 bit1 被清除 */
+                                 pdTRUE, /* 设置为 pdTRUE 表示等待 bit1 和 bit0 都被设置*/
+                                 portMAX_DELAY); /* 等待延迟时间 */
+      if((uxBits & ifSensorsReadFinish)==ifSensorsReadFinish)
+      {
+         
+      }
       //xEventGroupSetBits(xCreatedEventGroup,BIT_0);  //设置事件标志组的BIT0
-      vTaskDelay(20);
+//      vTaskDelay(20);
    }
    
 }
@@ -24,24 +36,32 @@ void vTaskReadSenser(void *pvParameters)
    {
       READ_MPU9250_ACCEL();
       READ_MPU9250_GYRO();
-      
+      //READ_MPU9250_MAG();
       if(isGetGyroBiasFinished==false)
          getGyroBias(gyroOriginalData);
       else if(isGetGyroBiasFinished)
       {
+         imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
+         
+         vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
+         xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
+         xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
+         xTaskResumeAll();
          
       }
-      xEventGroupSetBits(xCreatedEventGroup,BIT_0);  //设置事件标志组的BIT0
+      xEventGroupSetBits(xCreatedEventGroup,ifSensorsReadFinish);  //设置事件标志组的BIT0
       
-      vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
+      
       
    //   xQueueOverwrite(imuDataQueue,&mpu9250_OriginalData);
       
-      xTaskResumeAll();
+      
       vTaskDelay(1);
       
    }
 }
+
+
 
 
 
@@ -57,46 +77,45 @@ void vTaskReadSenser(void *pvParameters)
 HMI_data mpu9250_data;
 void vTaskDataUpload(void *pvParameters)
 {
-   EventBits_t uxBits;
+
    while(1)
    {
-      uxBits = xEventGroupWaitBits(xCreatedEventGroup, /* 事件标志组句柄 */
-                                 BIT_0, /* 等待 bit0 被设置 */
-                                 pdTRUE, /* 退出前 bit0 和 bit1 被清除 */
-                                 pdTRUE, /* 设置为 pdTRUE 表示等待 bit1 和 bit0 都被设置*/
-                                 portMAX_DELAY); /* 等待延迟时间 */
-      if((uxBits & BIT_0)==BIT_0)
+//      uxBits = xEventGroupWaitBits(xCreatedEventGroup, /* 事件标志组句柄 */
+//                                 ifSensorsReadFinish, /* 等待 bit0 被设置 */
+//                                 pdTRUE, /* 退出前 bit0 和 bit1 被清除 */
+//                                 pdTRUE, /* 设置为 pdTRUE 表示等待 bit1 和 bit0 都被设置*/
+//                                 portMAX_DELAY); /* 等待延迟时间 */
+
+      mpu9250_data.ACC_X=accOriginalData.x;
+      mpu9250_data.ACC_Y=accOriginalData.y;
+      mpu9250_data.ACC_Z=accOriginalData.z;
+      if(isGetGyroBiasFinished)
       {
-         mpu9250_data.ACC_X=accOriginalData.x;
-         mpu9250_data.ACC_Y=accOriginalData.y;
-         mpu9250_data.ACC_Z=accOriginalData.z;
-         if(isGetGyroBiasFinished)
-         {
-            mpu9250_data.GYRO_X=gyroOriginalData.x-gyroBias.value.x;
-            mpu9250_data.GYRO_Y=gyroOriginalData.y-gyroBias.value.y;
-            mpu9250_data.GYRO_Z=gyroOriginalData.z-gyroBias.value.z;
-         }
-         else
-         {
-            mpu9250_data.GYRO_X=gyroOriginalData.x;
-            mpu9250_data.GYRO_Y=gyroOriginalData.y;
-            mpu9250_data.GYRO_Z=gyroOriginalData.z;
-         }
-         mpu9250_data.MAG_X=magOriginalData.x;
-         mpu9250_data.MAG_Y=magOriginalData.y;
-         mpu9250_data.MAG_Z=magOriginalData.z;
-      
-         Send_RCData(mpu9250_data,1,0,0,0,0,0);
-         while(1)
-         {
-            if(__HAL_DMA_GET_FLAG(&UART1TxDMA_Handler,DMA_FLAG_TCIF3_7))  //判断是否传输完成
-            {
-               __HAL_DMA_CLEAR_FLAG(&UART1TxDMA_Handler,DMA_FLAG_TCIF3_7);//清除DMA2_Steam7传输完成标志
-               HAL_UART_DMAStop(&UART1_Handler);      //传输完成以后关闭串口DMA
-               break;
-            }    
-         }
+         mpu9250_data.GYRO_X=gyroOriginalData.x-gyroBias.value.x;
+         mpu9250_data.GYRO_Y=gyroOriginalData.y-gyroBias.value.y;
+         mpu9250_data.GYRO_Z=gyroOriginalData.z-gyroBias.value.z;
       }
+      else
+      {
+         mpu9250_data.GYRO_X=gyroOriginalData.x;
+         mpu9250_data.GYRO_Y=gyroOriginalData.y;
+         mpu9250_data.GYRO_Z=gyroOriginalData.z;
+      }
+      mpu9250_data.MAG_X=magOriginalData.x;
+      mpu9250_data.MAG_Y=magOriginalData.y;
+      mpu9250_data.MAG_Z=magOriginalData.z;
+   
+      Send_RCData(mpu9250_data,1,0,0,0,0,0);
+      while(1)
+      {
+         if(__HAL_DMA_GET_FLAG(&UART1TxDMA_Handler,DMA_FLAG_TCIF3_7))  //判断是否传输完成
+         {
+            __HAL_DMA_CLEAR_FLAG(&UART1TxDMA_Handler,DMA_FLAG_TCIF3_7);//清除DMA2_Steam7传输完成标志
+            HAL_UART_DMAStop(&UART1_Handler);      //传输完成以后关闭串口DMA
+            break;
+         }    
+      }
+      
       
    }
 }
