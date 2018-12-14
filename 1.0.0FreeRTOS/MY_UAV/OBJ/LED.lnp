@@ -15,6 +15,8 @@
 "..\obj\stm32f4xx_hal_usart.o"
 "..\obj\stm32f4xx_hal_dma.o"
 "..\obj\stm32f4xx_hal_dma_ex.o"
+"..\obj\stm32f4xx_hal_tim.o"
+"..\obj\stm32f4xx_hal_tim_ex.o"
 "..\obj\delay.o"
 "..\obj\sys.o"
 "..\obj\usart.o"
@@ -24,6 +26,7 @@
 "..\obj\mpu9250.o"
 "..\obj\swj.o"
 "..\obj\sensors.o"
+"..\obj\timer.o"
 "..\obj\croutine.o"
 "..\obj\event_groups.o"
 "..\obj\list.o"
@@ -33,7 +36,7 @@
 "..\obj\timers.o"
 "..\obj\port.o"
 "..\obj\heap_4.o"
-"..\obj\attitudesolution.o"
+"..\obj\flightstatus.o"
 --library_type=microlib --strict --scatter "..\OBJ\LED.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

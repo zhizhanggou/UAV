@@ -4,20 +4,29 @@ EventGroupHandle_t xCreatedEventGroup;
 /******************************************
 姿态解算任务
 ******************************************/
-void vTaskAttitudeSolution(void *pvParameters)
+
+int deltaT;//两次传感器数据读取的时间差
+
+void vTaskAttitudeAlgorithm(void *pvParameters)
 {
    EventBits_t uxBits;
+	DataProcessed data;
    while(1)
    {
-      uxBits = xEventGroupWaitBits(xCreatedEventGroup, /* 事件标志组句柄 */
-                                 ifSensorsReadFinish, /* 等待 bit0 被设置 */
-                                 pdTRUE, /* 退出前 bit0 和 bit1 被清除 */
-                                 pdTRUE, /* 设置为 pdTRUE 表示等待 bit1 和 bit0 都被设置*/
-                                 portMAX_DELAY); /* 等待延迟时间 */
-      if((uxBits & ifSensorsReadFinish)==ifSensorsReadFinish)
-      {
-         
-      }
+//      uxBits = xEventGroupWaitBits(xCreatedEventGroup, /* 事件标志组句柄 */
+//                                 ifSensorsReadFinish, /* 等待 bit0 被设置 */
+//                                 pdTRUE, /* 退出前 bit0 和 bit1 被清除 */
+//                                 pdTRUE, /* 设置为 pdTRUE 表示等待 bit1 和 bit0 都被设置*/
+//                                 portMAX_DELAY); /* 等待延迟时间 */
+//      if((uxBits & ifSensorsReadFinish)==ifSensorsReadFinish)
+//      {
+//				
+//			
+//				
+//			
+//      }
+		 
+		 
       //xEventGroupSetBits(xCreatedEventGroup,BIT_0);  //设置事件标志组的BIT0
 //      vTaskDelay(20);
    }
@@ -32,29 +41,32 @@ void vTaskAttitudeSolution(void *pvParameters)
 ******************************************/
 void vTaskReadSenser(void *pvParameters)
 {
+	
    while(1)
    {
-      READ_MPU9250_ACCEL();
-      READ_MPU9250_GYRO();
-      //READ_MPU9250_MAG();
-      if(isGetGyroBiasFinished==false)
-         getGyroBias(gyroOriginalData);
-      else if(isGetGyroBiasFinished)
-      {
-         imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
-         
-         vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
-         xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
-         xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
-         xTaskResumeAll();
-         
-      }
-      xEventGroupSetBits(xCreatedEventGroup,ifSensorsReadFinish);  //设置事件标志组的BIT0
-      
-      
-      
-   //   xQueueOverwrite(imuDataQueue,&mpu9250_OriginalData);
-      
+			deltaT=__HAL_TIM_GetCounter(&TIM6_Handler);//读取定时器6的时间
+			READ_MPU9250_ACCEL();
+			READ_MPU9250_GYRO();
+			__HAL_TIM_SetCounter(&TIM6_Handler,0x00);	
+				//READ_MPU9250_MAG();
+			if(isGetGyroBiasFinished==false)
+			 getGyroBias(gyroOriginalData);
+			else if(isGetGyroBiasFinished)
+			{
+				 imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
+				 
+				 vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
+				 xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
+				 xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
+				 xTaskResumeAll();
+			 
+			}
+			//xEventGroupSetBits(xCreatedEventGroup,ifSensorsReadFinish);  //设置事件标志组的BIT0
+				
+				
+				
+		 //   xQueueOverwrite(imuDataQueue,&mpu9250_OriginalData);
+				
       
       vTaskDelay(1);
       

@@ -1,10 +1,10 @@
-#include "attitudeSolution.h"
+#include "flightStatus.h"
 #include "math.h"
 
 #define Kp 0.1f                        
 #define Ki 0.001f                         
 //#define halfT 0.0025f
-#define PI 3.1415926
+#define PI 3.1415926f
 u8 bFilterInit;
 //加速度值一阶低通滤波系数（高度解算使用）
 float ACCEL_LOWPASS_Kp=0.2;   
@@ -32,7 +32,6 @@ float q3q3;
 float Rot_matrix[9] = {1.f,  0.0f,  0.0f, 0.0f,  1.f,  0.0f, 0.0f,  0.0f,  1.f };		/**< init: identity matrix */
 
 
-DataProcessed data;
 
 void NonlinearSO3AHRSinit(DataProcessed data)
 {
@@ -81,12 +80,6 @@ void NonlinearSO3AHRSinit(DataProcessed data)
     q2q3 = q2 * q3;
     q3q3 = q3 * q3;
 }
-
-
-
-/**************************************************/
-
-
 float accel_temp[3];
 float gyro_temp[3];
 
@@ -114,7 +107,6 @@ void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float 
 	if((data.magDataProcessed[0] != 0.0f) && (data.magDataProcessed[1] != 0.0f) && (data.magDataProcessed[2] != 0.0f)) {
 		float hx, hy, hz, bx, bz;
 		float halfwx, halfwy, halfwz;
-		float mag_err;
 		// Normalise magnetometer measurement
 		// Will sqrt work better? PX4 system is powerful enough?
     	recipNorm = 1.0/sqrt(data.magDataProcessed[0] * data.magDataProcessed[0] + data.magDataProcessed[1] * data.magDataProcessed[1] + data.magDataProcessed[2] * data.magDataProcessed[2]);
@@ -152,7 +144,6 @@ void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float 
 	if(!((data.accDataProcessed[0] == 0.0f) && (data.accDataProcessed[1] == 0.0f) && (data.accDataProcessed[2] == 0.0f))) 	
 	{
 		float halfvx, halfvy, halfvz;
-		float accNorm=0;
 	
 		// Normalise accelerometer measurement
 		recipNorm =1.0/sqrt(data.accDataProcessed[0] * data.accDataProcessed[0] + data.accDataProcessed[1] * data.accDataProcessed[1] + data.accDataProcessed[2] * data.accDataProcessed[2]);
@@ -172,7 +163,7 @@ void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float 
 		if(Vertically_ACCEL_Count<50)   //计算Z轴加速度偏置
 		{
 			Vertically_ACCEL_Last=Vertically_ACCEL;
-			Vertically_ACCEL=accel_temp[0]*2*halfvx+accel_temp[1]*2*halfvy+accel_temp[2]*2*halfvz-9.8;//竖直方向总加速度减去重力加速度得到纯运动加速度
+			Vertically_ACCEL=accel_temp[0]*2*halfvx+accel_temp[1]*2*halfvy+accel_temp[2]*2*halfvz-9.8f;//竖直方向总加速度减去重力加速度得到纯运动加速度
 			Vertically_ACCEL_Bias+=Vertically_ACCEL;
 			Vertically_ACCEL_Count++;
 		}
@@ -181,7 +172,7 @@ void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float 
 			Vertically_Adjustment_Flag=1;
 			Vertically_ACCEL_Last=Vertically_ACCEL-Vertically_ACCEL_Dirft;		
 			//计算竖直方向加速度，使用一阶低通滤波
-			Vertically_ACCEL=(accel_temp[0]*2*halfvx+accel_temp[1]*2*halfvy+accel_temp[2]*2*halfvz-9.8-Vertically_ACCEL_Bias/Vertically_ACCEL_Count-Vertically_ACCEL_Dirft)*ACCEL_LOWPASS_Kp+(1.0f-ACCEL_LOWPASS_Kp)*Vertically_ACCEL_Last;//竖直方向总加速度减去重力加速度得到纯运动加速度
+			Vertically_ACCEL=(accel_temp[0]*2*halfvx+accel_temp[1]*2*halfvy+accel_temp[2]*2*halfvz-9.8f-Vertically_ACCEL_Bias/Vertically_ACCEL_Count-Vertically_ACCEL_Dirft)*ACCEL_LOWPASS_Kp+(1.0f-ACCEL_LOWPASS_Kp)*Vertically_ACCEL_Last;//竖直方向总加速度减去重力加速度得到纯运动加速度
 			
 			
 			//二次积分得到高度
@@ -286,19 +277,4 @@ void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float 
       //Attitude.Yaw_BY=Yaw_Calc(Mag_Data[X],Mag_Data[Y],Mag_Data[Z],euler[0],euler[1])* 180.0f / PI;
       
 }
-
-
-//float Yaw_Calc(float Bx,float By,float Bz,float Roll,float Pitch)
-//{
-//   float Bx3,By2,Bz2,Bx2;
-////   By2=Bz*sin(-Roll)+By*cos(-Roll);
-////   Bz2=-By*sin(-Roll)+Bz*cos(-Roll);
-////   Bx3=Bx*cos(-Pitch)-Bz2*sin(-Pitch);
-//   Bx2=Bz*sin(Roll)+Bx*cos(Roll);
-//   By2=Bx*sin(Pitch)*sin(Roll)+By*cos(Pitch)-Bz*sin(Pitch)*cos(Roll);
-//   
-//   
-//   return atan2f(Bx2,By2);
-//}
-
 

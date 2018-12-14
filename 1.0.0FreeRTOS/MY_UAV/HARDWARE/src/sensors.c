@@ -1,6 +1,5 @@
 #include "sensors.h"
 
-
  xQueueHandle gyroDataQueue;
  xQueueHandle accDataQueue;
 static xQueueHandle magDataQueue;

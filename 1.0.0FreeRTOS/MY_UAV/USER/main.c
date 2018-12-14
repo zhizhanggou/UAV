@@ -25,7 +25,7 @@ void startTask(void *arg)
 	taskENTER_CRITICAL();	/*进入临界区*/
 	xTaskCreate(vTaskIndicatorLED, "vTaskIndicatorLED", 150, NULL, 3, NULL);
    xTaskCreate(vTaskDataUpload, "vTaskDataUpload", 150, NULL, 4, NULL);
-   //xTaskCreate(vTaskAttitudeSolution, "vTaskAttitudeSolution", 150, NULL, 4, NULL);
+   xTaskCreate(vTaskAttitudeAlgorithm, "vTaskAttitudeAlgorithm", 150, NULL, 6, NULL);
    xTaskCreate(vTaskReadSenser, "vTaskReadSenser", 150, NULL, 5, NULL);
    
 	vTaskDelete(startTaskHandle);										/*删除开始任务*/

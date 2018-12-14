@@ -18,7 +18,12 @@ typedef struct
    Axis3f value;
 }GyroBias;
 
-
+typedef struct 
+{
+   float gyroDataProcessed[3];
+   float accDataProcessed[3];
+	float magDataProcessed[3];
+}DataProcessed;
 
 void sensorsQueueInit(void);
 bool getGyroBias(Axis3i16 data);

@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F427xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\OBJ;..\USER;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\inc;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\FreeRTOS\include</IncludePath>
+              <IncludePath>..\CORE;..\OBJ;..\USER;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\inc;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\FreeRTOS\include;..\CTRL\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -494,6 +494,16 @@
               <FileType>1</FileType>
               <FilePath>..\HALLIB\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma_ex.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HALLIB\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HALLIB\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim_ex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -548,6 +558,11 @@
               <FileName>sensors.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\src\sensors.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\src\timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -613,6 +628,16 @@
               <FileName>heap_4.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FreeRTOS\portable\MemMang\heap_4.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CTRL</GroupName>
+          <Files>
+            <File>
+              <FileName>flightStatus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CTRL\src\flightStatus.c</FilePath>
             </File>
           </Files>
         </Group>

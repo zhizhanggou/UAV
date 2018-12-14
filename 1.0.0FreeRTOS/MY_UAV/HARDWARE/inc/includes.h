@@ -15,4 +15,5 @@
 #include "event_groups.h"
 #include "sensors.h"
 #include "sensorsType.h"
-#include "attitudeSolution.h"
+#include "flightStatus.h"
+#include "timer.h"
