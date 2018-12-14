@@ -1,6 +1,8 @@
 #include "task.h"
-EventGroupHandle_t xCreatedEventGroup;
+#include "flightStatus.h"
 
+EventGroupHandle_t xCreatedEventGroup;
+TaskHandle_t xTaskAttitudeAlgorithm = NULL;
 /******************************************
 姿态解算任务
 ******************************************/
@@ -25,8 +27,15 @@ void vTaskAttitudeAlgorithm(void *pvParameters)
 //				
 //			
 //      }
-		 
-		 
+      NonlinearSO3AHRSupdate(data, 1, 0.005, deltaT/1000000.0f);
+     
+      xQueueReceive(gyroDataQueue, data.gyroDataProcessed, 0);
+     
+      xQueueReceive(accDataQueue, data.accDataProcessed, 0);
+      //xQueueReceive(gyroDataQueue, data.gyroDataProcessed, 0);
+      
+      
+      vTaskSuspend(xTaskAttitudeAlgorithm);
       //xEventGroupSetBits(xCreatedEventGroup,BIT_0);  //设置事件标志组的BIT0
 //      vTaskDelay(20);
    }
@@ -41,9 +50,10 @@ void vTaskAttitudeAlgorithm(void *pvParameters)
 ******************************************/
 void vTaskReadSenser(void *pvParameters)
 {
-	
+	u32 lastWakeTime = xTaskGetTickCount();
    while(1)
    {
+      vTaskDelayUntil(&lastWakeTime,MAIN_LOOP_TIME);
 			deltaT=__HAL_TIM_GetCounter(&TIM6_Handler);//读取定时器6的时间
 			READ_MPU9250_ACCEL();
 			READ_MPU9250_GYRO();
@@ -53,13 +63,13 @@ void vTaskReadSenser(void *pvParameters)
 			 getGyroBias(gyroOriginalData);
 			else if(isGetGyroBiasFinished)
 			{
-				 imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
-				 
-				 vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
-				 xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
-				 xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
-				 xTaskResumeAll();
-			 
+        imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
+
+        vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
+        xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
+        xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
+        xTaskResumeAll();
+        vTaskResume(xTaskAttitudeAlgorithm);
 			}
 			//xEventGroupSetBits(xCreatedEventGroup,ifSensorsReadFinish);  //设置事件标志组的BIT0
 				
