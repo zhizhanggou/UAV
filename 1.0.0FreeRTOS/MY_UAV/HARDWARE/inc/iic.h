@@ -9,7 +9,7 @@ typedef struct iic{
 	uint16_t iicSCLPortNum;  
 	uint16_t iicSDAPortNum;  
 	GPIO_TypeDef *iic_sclPort; 
-	GPIO_TypeDef *iic_sdaPort;  	
+	GPIO_TypeDef *iic_sdaPort; 
    
 }iic;
 typedef enum GPIO_level{

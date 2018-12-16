@@ -27,6 +27,7 @@
 "..\obj\swj.o"
 "..\obj\sensors.o"
 "..\obj\timer.o"
+"..\obj\flightstatus.o"
 "..\obj\croutine.o"
 "..\obj\event_groups.o"
 "..\obj\list.o"
@@ -36,7 +37,6 @@
 "..\obj\timers.o"
 "..\obj\port.o"
 "..\obj\heap_4.o"
-"..\obj\flightstatus.o"
 --library_type=microlib --strict --scatter "..\OBJ\LED.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -12,11 +12,11 @@
 #include "timers.h"
 #include "semphr.h"
 #include "sysInit.h"
+#include "sensors.h"
 #include "mpu9250.h"
 #include "SWJ.h"
 #include "iic.h"
 #include "task.h"
-#include "sensors.h"
 #include "flightStatus.h"
 #include "timer.h"
 

@@ -137,7 +137,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -567,6 +567,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>CTRL</GroupName>
+          <Files>
+            <File>
+              <FileName>flightStatus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CTRL\src\flightStatus.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>README</GroupName>
           <Files>
             <File>
@@ -628,16 +638,6 @@
               <FileName>heap_4.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FreeRTOS\portable\MemMang\heap_4.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>CTRL</GroupName>
-          <Files>
-            <File>
-              <FileName>flightStatus.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CTRL\src\flightStatus.c</FilePath>
             </File>
           </Files>
         </Group>

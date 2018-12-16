@@ -40,8 +40,13 @@ void startTask(void *arg)
 static void AppObjCreate (void)
 {
 /* 创建事件标志组 */
-   xCreatedEventGroup = xEventGroupCreate();
-   if(xCreatedEventGroup == NULL)
+   xSensorEventGroup = xEventGroupCreate();
+   xUploadEventGroup = xEventGroupCreate();
+   if(xSensorEventGroup == NULL)
+   {
+      /* 没有创建成功，用户可以在这里加入创建失败的处理机制 */
+   }
+    if(xUploadEventGroup == NULL)
    {
       /* 没有创建成功，用户可以在这里加入创建失败的处理机制 */
    }

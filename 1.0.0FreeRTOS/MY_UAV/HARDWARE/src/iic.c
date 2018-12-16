@@ -109,61 +109,34 @@ void iicSingleInit(iic iicPort)
 
 void SDA_IN(iic iicPort)  
 {
-	iicPort.iic_sdaPort->MODER&=~(3<<(iicPort.iicSDAPortNum*2));
-	iicPort.iic_sdaPort->MODER|=0<<iicPort.iicSDAPortNum*2;
+	iicPort.iic_sdaPort->MODER&=~(3<<(iicPort.iicSDAPortNum<<1));
+	iicPort.iic_sdaPort->MODER|=0<<(iicPort.iicSDAPortNum<<1);
 }	
 void SDA_OUT(iic iicPort)  
 {
-	iicPort.iic_sdaPort->MODER&=~(3<<(iicPort.iicSDAPortNum*2));
-	iicPort.iic_sdaPort->MODER|=1<<iicPort.iicSDAPortNum*2;
+	iicPort.iic_sdaPort->MODER&=~(3<<(iicPort.iicSDAPortNum<<1));
+	iicPort.iic_sdaPort->MODER|=1<<(iicPort.iicSDAPortNum<<1);
 }	
 
 void IIC_SCL(iic iicPort,bool level)
 {
-	switch((uint32_t)iicPort.iic_sclPort)
-	{
-		case (uint32_t)GPIOA: PAout(iicPort.iicSCLPortNum)=level; break;
-		case (uint32_t)GPIOB: PBout(iicPort.iicSCLPortNum)=level; break;
-		case (uint32_t)GPIOC: PCout(iicPort.iicSCLPortNum)=level; break;
-		case (uint32_t)GPIOD: PDout(iicPort.iicSCLPortNum)=level; break;
-		case (uint32_t)GPIOE: PEout(iicPort.iicSCLPortNum)=level; break;
-		case (uint32_t)GPIOF: PFout(iicPort.iicSCLPortNum)=level; break;
-		case (uint32_t)GPIOG: PGout(iicPort.iicSCLPortNum)=level; break;
-	}
+  BIT_ADDR((int)iicPort.iic_sclPort+20,iicPort.iicSCLPortNum)=level;
 }
 
 void IIC_SDA(iic iicPort,bool level)
 {
-	switch((uint32_t)iicPort.iic_sdaPort)
-	{
-		case (uint32_t)GPIOA: PAout(iicPort.iicSDAPortNum)=level; break;
-		case (uint32_t)GPIOB: PBout(iicPort.iicSDAPortNum)=level; break;
-		case (uint32_t)GPIOC: PCout(iicPort.iicSDAPortNum)=level; break;
-		case (uint32_t)GPIOD: PDout(iicPort.iicSDAPortNum)=level; break;
-		case (uint32_t)GPIOE: PEout(iicPort.iicSDAPortNum)=level; break;
-		case (uint32_t)GPIOF: PFout(iicPort.iicSDAPortNum)=level; break;
-		case (uint32_t)GPIOG: PGout(iicPort.iicSDAPortNum)=level; break;
-	}
+  BIT_ADDR((uint32_t)iicPort.iic_sdaPort+20,iicPort.iicSDAPortNum)=level;
 }
 uint8_t IIC_READ_SDA(iic iicPort)
 {
 	uint8_t temp=0;
-		switch((uint32_t)iicPort.iic_sdaPort)
-	{
-		case (uint32_t)GPIOA: temp=PAin(iicPort.iicSDAPortNum); break;
-		case (uint32_t)GPIOB: temp=PBin(iicPort.iicSDAPortNum); break;
-		case (uint32_t)GPIOC: temp=PCin(iicPort.iicSDAPortNum); break;
-		case (uint32_t)GPIOD: temp=PDin(iicPort.iicSDAPortNum); break;
-		case (uint32_t)GPIOE: temp=PEin(iicPort.iicSDAPortNum); break;
-		case (uint32_t)GPIOF: temp=PFin(iicPort.iicSDAPortNum); break;
-		case (uint32_t)GPIOG: temp=PGin(iicPort.iicSDAPortNum); break;
-	}
+  temp=BIT_ADDR((uint32_t)iicPort.iic_sdaPort+16,iicPort.iicSDAPortNum);
 	return temp;
 }
 
 void IIC_delay(void)
 {
-   u8 i=20; 
+   u8 i=3; 
    while(i) 
    { 
      i--; 
@@ -178,7 +151,6 @@ int IIC_Start(iic iicPort)
 	IIC_SCL(iicPort,HIGH);
 	IIC_delay();
  	IIC_SDA(iicPort,LOW);//START:when CLK is high,DATA change form high to low 
-	IIC_delay();
 	IIC_SCL(iicPort,LOW);//钳住I2C总线，准备发送或接收数据 
 	return 1;
 }	
@@ -199,14 +171,13 @@ u8 IIC_Wait_Ack(iic iicPort)
 {
 	u8 ucErrTime=0;
 	SDA_IN(iicPort);      //SDA设置为输入  
-	IIC_SDA(iicPort,HIGH);
-	IIC_delay();	   
+	IIC_SDA(iicPort,HIGH);   
 	IIC_SCL(iicPort,HIGH);
 	IIC_delay();	 
 	while(IIC_READ_SDA(iicPort))
 	{
 		ucErrTime++;
-		if(ucErrTime>250)
+		if(ucErrTime>200)
 		{
 			IIC_Stop(iicPort);
 			return 1;
@@ -221,7 +192,6 @@ void IIC_Ack(iic iicPort)
 	IIC_SCL(iicPort,LOW);
 	SDA_OUT(iicPort);     //sda线输出
 	IIC_SDA(iicPort,LOW);
-	IIC_delay();
 	IIC_SCL(iicPort,HIGH);
 	IIC_delay();
 	IIC_SCL(iicPort,LOW);
@@ -232,7 +202,6 @@ void IIC_NAck(iic iicPort)
 	IIC_SCL(iicPort,LOW);
 	SDA_OUT(iicPort);     //sda线输出
 	IIC_SDA(iicPort,HIGH);
-	IIC_delay();
 	IIC_SCL(iicPort,HIGH);
 	IIC_delay();
 	IIC_SCL(iicPort,LOW);
@@ -250,8 +219,7 @@ void IIC_Send_Byte(iic iicPort,u8 txd)
 	for(t=0;t<8;t++)
 	{              
 		IIC_SDA(iicPort,(txd&0x80)>>7);
-		txd<<=1; 	  
-		IIC_delay();  
+		txd<<=1; 	   
 		IIC_SCL(iicPort,HIGH);
 		IIC_delay(); 
 		IIC_SCL(iicPort,LOW);	

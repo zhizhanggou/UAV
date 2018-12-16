@@ -1,8 +1,7 @@
 #ifndef _SENSORS_H
 #define _SENSORS_H
 #include "includes.h"
-
- #define PI 3.1415926f  
+// #define PI 3.1415926f  
 #define MAG_SENSOR_ENABLE 0                  //是否使用磁力计
 #define GYRO_BIAS_SAMPLES_NUM 500             //陀螺仪的零偏采样样本个数
 #define GYRO_BIAS_SAMPLES_VARIANCE_GATA 200     //陀螺仪零偏采样时允许的数据方差的最大值
@@ -18,24 +17,19 @@ typedef struct
    Axis3f value;
 }GyroBias;
 
-typedef struct 
-{
-   float gyroDataProcessed[3];
-   float accDataProcessed[3];
-	float magDataProcessed[3];
-}DataProcessed;
 
-typedef struct 
-{
-   Axis3f attitude;
-   float height;
-}FlightStatus;
 
+//typedef struct 
+//{
+//   Axis3f attitude;
+//   float height;
+//}FlightStatus;
+void sensorsInit(void);
 void sensorsQueueInit(void);
 bool getGyroBias(Axis3i16 data);
 void getGyroBiasMeanAndVar(Axis3i16 *buffer);   //计算平均值和方差
 void imuOriginalDataProcessing(Axis3i16 accData,Axis3i16 gyroData,Axis3i16 magData);
-void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float dt);
+//void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float dt);
 extern xQueueHandle accDataQueue;
 extern xQueueHandle gyroDataQueue;
 extern xQueueHandle magDataQueue;
