@@ -4,12 +4,13 @@
 
 /***********定义IIC端口**********/
 
-iic iicPortDef(GPIO_TypeDef *sclGPIOx,uint16_t sclPort,GPIO_TypeDef *sdaGPIOx,uint16_t sdaPort)
+iic iicPortDef(GPIO_TypeDef *sclGPIOx,uint16_t sclPort,GPIO_TypeDef *sdaGPIOx,uint16_t sdaPort,uint16_t delayTime)
 {
-   iic iicTemp;
-   iicTemp.sclPort=sclPort;
-   iicTemp.sdaPort=sdaPort;
-   iicTemp.iic_sclPort=sclGPIOx;
+	iic iicTemp;
+	iicTemp.sclPort=sclPort;
+	iicTemp.sdaPort=sdaPort;
+	iicTemp.iicDelayTime=delayTime;
+	iicTemp.iic_sclPort=sclGPIOx;
 	iicTemp.iic_sdaPort=sdaGPIOx;
 	switch(sclPort)
 	{
@@ -134,9 +135,9 @@ uint8_t IIC_READ_SDA(iic iicPort)
 	return temp;
 }
 
-void IIC_delay(void)
+void IIC_delay(uint16_t delay)
 {
-   u8 i=3; 
+   u8 i=delay; 
    while(i) 
    { 
      i--; 
@@ -149,7 +150,7 @@ int IIC_Start(iic iicPort)
 	SDA_OUT(iicPort);     //sda线输出
 	IIC_SDA(iicPort,HIGH);	  	  
 	IIC_SCL(iicPort,HIGH);
-	IIC_delay();
+	IIC_delay(iicPort.iicDelayTime);
  	IIC_SDA(iicPort,LOW);//START:when CLK is high,DATA change form high to low 
 	IIC_SCL(iicPort,LOW);//钳住I2C总线，准备发送或接收数据 
 	return 1;
@@ -160,10 +161,10 @@ int IIC_Stop(iic iicPort)
 	SDA_OUT(iicPort);     //sda线输出
 	IIC_SCL(iicPort,LOW);
 	IIC_SDA(iicPort,LOW);//STOP:when CLK is high DATA change form low to high
- 	IIC_delay();
+ 	IIC_delay(iicPort.iicDelayTime);
 	IIC_SCL(iicPort,HIGH); 
 	IIC_SDA(iicPort,HIGH);//发送I2C总线结束信号
-	IIC_delay();		
+	IIC_delay(iicPort.iicDelayTime);		
 	return 1;	
 }
 
@@ -173,7 +174,7 @@ u8 IIC_Wait_Ack(iic iicPort)
 	SDA_IN(iicPort);      //SDA设置为输入  
 	IIC_SDA(iicPort,HIGH);   
 	IIC_SCL(iicPort,HIGH);
-	IIC_delay();	 
+	IIC_delay(iicPort.iicDelayTime);	 
 	while(IIC_READ_SDA(iicPort))
 	{
 		ucErrTime++;
@@ -193,7 +194,7 @@ void IIC_Ack(iic iicPort)
 	SDA_OUT(iicPort);     //sda线输出
 	IIC_SDA(iicPort,LOW);
 	IIC_SCL(iicPort,HIGH);
-	IIC_delay();
+	IIC_delay(iicPort.iicDelayTime);
 	IIC_SCL(iicPort,LOW);
 }
 
@@ -203,7 +204,7 @@ void IIC_NAck(iic iicPort)
 	SDA_OUT(iicPort);     //sda线输出
 	IIC_SDA(iicPort,HIGH);
 	IIC_SCL(iicPort,HIGH);
-	IIC_delay();
+	IIC_delay(iicPort.iicDelayTime);
 	IIC_SCL(iicPort,LOW);
 }	
 
@@ -221,9 +222,9 @@ void IIC_Send_Byte(iic iicPort,u8 txd)
 		IIC_SDA(iicPort,(txd&0x80)>>7);
 		txd<<=1; 	   
 		IIC_SCL(iicPort,HIGH);
-		IIC_delay(); 
+		IIC_delay(iicPort.iicDelayTime); 
 		IIC_SCL(iicPort,LOW);	
-		IIC_delay();
+		IIC_delay(iicPort.iicDelayTime);
 	}	 
 } 
 //读1个字节，ack=1时，发送ACK，ack=0，发送nACK   
@@ -234,11 +235,11 @@ u8 IIC_Read_Byte(iic iicPort, unsigned char ack)
 	for(i=0;i<8;i++ )
 	{
 		IIC_SCL(iicPort,LOW); 
-		IIC_delay();
+		IIC_delay(iicPort.iicDelayTime);
 		IIC_SCL(iicPort,HIGH);
 		receive<<=1;
 		if(IIC_READ_SDA(iicPort))receive++;   
-		IIC_delay(); 
+		IIC_delay(iicPort.iicDelayTime); 
 	}					 
     if (!ack)
        IIC_NAck(iicPort);//发送nACK

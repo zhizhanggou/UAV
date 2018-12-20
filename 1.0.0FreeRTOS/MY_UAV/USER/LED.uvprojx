@@ -564,6 +564,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\src\timer.c</FilePath>
             </File>
+            <File>
+              <FileName>ultrasonic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\src\ultrasonic.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

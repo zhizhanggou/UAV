@@ -103,22 +103,22 @@ void vTaskReadSenser(void *pvParameters)
 /******************************************
 参数上传上位机任务
 ******************************************/
-HMI_data mpu9250_data;
+
 void vTaskDataUpload(void *pvParameters)
 {
-   EventBits_t uxBits;
-
-   while(1)
-   {
-      uxBits = xEventGroupWaitBits(xUploadEventGroup, /* 事件标志组句柄 */
+		EventBits_t uxBits;
+		HMI_data mpu9250_data;
+		USER data;
+		while(1)
+		{
+			uxBits = xEventGroupWaitBits(xUploadEventGroup, /* 事件标志组句柄 */
                                  ifDataReadyUpLoad, /* 等待 bit0 被设置 */
                                  pdTRUE, /* 退出前 bit0 和 bit1 被清除 */
                                  pdTRUE, /* 设置为 pdTRUE 表示等待 bit1 和 bit0 都被设置*/
                                  portMAX_DELAY); /* 等待延迟时间 */
-
-     if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad)
-     {
-        mpu9250_data.ACC_X=accOriginalData.x;
+			if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad && DataToSend==STATUS_DATA)
+			{
+				mpu9250_data.ACC_X=accOriginalData.x;
         mpu9250_data.ACC_Y=accOriginalData.y;
         mpu9250_data.ACC_Z=accOriginalData.z;
         if(isGetGyroBiasFinished)
@@ -138,16 +138,22 @@ void vTaskDataUpload(void *pvParameters)
         mpu9250_data.MAG_Z=magOriginalData.z;
      
         Send_RCData(mpu9250_data,flightStatus.attitude.x,flightStatus.attitude.y,flightStatus.attitude.z,0,0,0);
-    }
-     while(1)
-    {
+			}
+			else if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad && DataToSend==USER_DATA)
+			{
+		 
+		 
+				Send_USERDATA(data);
+			}
+			while(1)
+			{
        if(__HAL_DMA_GET_FLAG(&UART1TxDMA_Handler,DMA_FLAG_TCIF3_7))  //判断是否传输完成
        {
           __HAL_DMA_CLEAR_FLAG(&UART1TxDMA_Handler,DMA_FLAG_TCIF3_7);//清除DMA2_Steam7传输完成标志
           HAL_UART_DMAStop(&UART1_Handler);      //传输完成以后关闭串口DMA
           break;
        }    
-    }
+			}
       
       
    }

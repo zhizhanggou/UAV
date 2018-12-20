@@ -12,7 +12,7 @@ unsigned int ASA[3]={0};
 void mpu9250_Init()
 {
 
-	iicSingleInit(mpu9250_iic=iicPortDef(GPIOD,GPIO_PIN_3,GPIOD,GPIO_PIN_4));
+	iicSingleInit(mpu9250_iic=iicPortDef(GPIOD,GPIO_PIN_3,GPIOD,GPIO_PIN_4,3));
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,PWR_MGMT_1, 0x00);	//½â³ýÐÝÃß×´Ì¬
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,SMPLRT_DIV, 0x04);
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,CONFIG, 0x06);      

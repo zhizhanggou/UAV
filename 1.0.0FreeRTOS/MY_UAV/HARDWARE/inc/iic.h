@@ -8,6 +8,7 @@ typedef struct iic{
 	uint16_t sdaPort;  
 	uint16_t iicSCLPortNum;  
 	uint16_t iicSDAPortNum;  
+	uint16_t iicDelayTime;
 	GPIO_TypeDef *iic_sclPort; 
 	GPIO_TypeDef *iic_sdaPort; 
    
@@ -18,7 +19,7 @@ typedef enum GPIO_level{
 }GPIO_level;
 
 
-iic iicPortDef(GPIO_TypeDef *sclGPIOx,uint16_t sclPort,GPIO_TypeDef *sdaGPIOx,uint16_t sdaPort);
+iic iicPortDef(GPIO_TypeDef *sclGPIOx,uint16_t sclPort,GPIO_TypeDef *sdaGPIOx,uint16_t sdaPort,uint16_t delayTime);
 void iicSingleInit(iic iicPort);
 int IIC_Start(iic iicPort);
 int IIC_Stop(iic iicPort);
@@ -27,5 +28,6 @@ void IIC_Ack(iic iicPort);
 void IIC_NAck(iic iicPort);
 u8 IIC_Read_Byte(iic iicPort, unsigned char ack);
 void IIC_Send_Byte(iic iicPort,u8 txd);
+void IIC_delay(uint16_t delay);
 #endif
 
