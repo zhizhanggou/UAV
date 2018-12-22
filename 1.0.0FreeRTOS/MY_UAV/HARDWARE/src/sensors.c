@@ -3,8 +3,8 @@
 xSemaphoreHandle sensorsDataReady;
  xQueueHandle gyroDataQueue;
  xQueueHandle accDataQueue;
-static xQueueHandle magDataQueue;
-static xQueueHandle baroDataQueue;
+ xQueueHandle magDataQueue;
+ xQueueHandle baroDataQueue;
 GyroBias gyroBias;
 Axis3f accBias,accT; //加计零偏与缩放系数
 Axis3i16 gyroBiasSampleBuffer[GYRO_BIAS_SAMPLES_NUM];

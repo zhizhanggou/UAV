@@ -6,6 +6,7 @@
 #define ifDataReadyUpLoad2 1<<1
 #define ifDataReadyUpLoad   (ifDataReadyUpLoad1|ifDataReadyUpLoad2)
 #define MAIN_LOOP_TIME 2    //主循环时间，单位ms
+#define MAG_READ_LOOP_TIME 20  //磁力计读取周期，单位ms
 
 extern EventGroupHandle_t xUploadEventGroup,xSensorEventGroup;
 extern TaskHandle_t xTaskAttitudeAlgorithm;

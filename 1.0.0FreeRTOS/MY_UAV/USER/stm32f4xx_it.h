@@ -38,7 +38,7 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F4xx_IT_H
 #define __STM32F4xx_IT_H
-
+#include "stm32f4xx.h"
 #ifdef __cplusplus
  extern "C" {
 #endif 
@@ -59,6 +59,10 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 
+   
+extern volatile uint32_t sysTickUptime;
+void cycleCounterInit(void);
+uint32_t micros(void);
 #ifdef __cplusplus
 }
 #endif

@@ -10,6 +10,8 @@ void sysInit()
 	TIM6_Int_Init(65535-1,90-1);
 	LED_Init();                     //初始化LED  
 	mpu9250_Init();						//9250初始化
+	GY_US42_Init();
+  MS5611_Init();
   sensorsInit();
 	sensorsQueueInit();					//传感器消息队列初始化
 	

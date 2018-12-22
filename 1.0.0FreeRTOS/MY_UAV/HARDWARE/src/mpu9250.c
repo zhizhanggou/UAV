@@ -1,7 +1,8 @@
 
 #include "mpu9250.h"
 
-iic mpu9250_iic;
+iic mpu9250_iic,mpu9250_mag_iic;
+
 
 
 Axis3i16 accOriginalData,gyroOriginalData,magOriginalData;
@@ -13,6 +14,7 @@ void mpu9250_Init()
 {
 
 	iicSingleInit(mpu9250_iic=iicPortDef(GPIOD,GPIO_PIN_3,GPIOD,GPIO_PIN_4,3));
+  iicSingleInit(mpu9250_mag_iic=iicPortDef(GPIOD,GPIO_PIN_3,GPIOD,GPIO_PIN_4,20));
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,PWR_MGMT_1, 0x00);	//解除休眠状态
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,SMPLRT_DIV, 0x04);
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,CONFIG, 0x06);      
@@ -74,9 +76,9 @@ void READ_MPU9250_GYRO(void)
 }
 void READ_MPU9250_MAG(void)
 { 
-   magOriginalData.x=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_XOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_XOUT_H)<<8)); 
-   magOriginalData.y=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_YOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_YOUT_H)<<8)); 
-   magOriginalData.z=(MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ZOUT_H)<<8));
+   magOriginalData.x=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_XOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_XOUT_H)<<8)); 
+   magOriginalData.y=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_YOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_YOUT_H)<<8)); 
+   magOriginalData.z=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_ZOUT_H)<<8));
    MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0X01);		//设置AK8963为单次测量模式 14bit精度
 }
 

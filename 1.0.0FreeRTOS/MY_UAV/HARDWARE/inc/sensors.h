@@ -2,7 +2,7 @@
 #define _SENSORS_H
 #include "includes.h"
 // #define PI 3.1415926f  
-#define MAG_SENSOR_ENABLE 0                  //是否使用磁力计
+#define MAG_SENSOR_ENABLE 1                  //是否使用磁力计
 #define GYRO_BIAS_SAMPLES_NUM 500             //陀螺仪的零偏采样样本个数
 #define GYRO_BIAS_SAMPLES_VARIANCE_GATA 200     //陀螺仪零偏采样时允许的数据方差的最大值
 #define GYRO_GAIN 0.03052f   //陀螺仪转换系数   （1000/32767）

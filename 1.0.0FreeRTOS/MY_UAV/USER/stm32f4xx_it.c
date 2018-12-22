@@ -40,7 +40,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_it.h"
-
+// cycles per microsecond
+static volatile uint32_t usTicks = 0;
+// current uptime for 1kHz systick timer. will rollover after 49 days. hopefully we won't care.
+volatile uint32_t sysTickUptime = 0;
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -181,3 +184,17 @@ void DebugMon_Handler(void)
   */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+ void cycleCounterInit(void)
+{
+    usTicks = HAL_RCC_GetSysClockFreq() / 1000000;
+}
+
+uint32_t micros(void)
+{
+    register uint32_t ms, cycle_cnt;
+    do {
+        ms = sysTickUptime;
+        cycle_cnt = SysTick->VAL;
+    } while (ms != sysTickUptime);
+    return (ms * 1000) + (usTicks * 1000 - cycle_cnt) / usTicks;
+}

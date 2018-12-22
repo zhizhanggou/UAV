@@ -47,9 +47,11 @@ void vTaskAttitudeAlgorithm(void *pvParameters)
 /******************************************
 传感器读取任务
 ******************************************/
+int16_t runingCount=0;
 void vTaskReadSenser(void *pvParameters)
 {
-    EventBits_t uxBits;
+   EventBits_t uxBits;
+   
    while(1)
    {	
       uxBits = xEventGroupWaitBits(xSensorEventGroup, /* 事件标志组句柄 */
@@ -61,24 +63,31 @@ void vTaskReadSenser(void *pvParameters)
      {
         deltaT=__HAL_TIM_GetCounter(&TIM6_Handler);//读取定时器6的时间
         __HAL_TIM_SetCounter(&TIM6_Handler,0x00);	
+       
+        runingCount++;
+        if(runingCount>100)   //进入读取任务的计数
+        {
+          runingCount=0;
+        }
+        
         READ_MPU9250_ACCEL();
         READ_MPU9250_GYRO();
-        
-          //READ_MPU9250_MAG();
+        if(runingCount%(MAG_READ_LOOP_TIME/MAIN_LOOP_TIME)==0 && MAG_SENSOR_ENABLE)
+          READ_MPU9250_MAG();
+        MS5611_ThreadNew();
+      // deltaT=__HAL_TIM_GetCounter(&TIM6_Handler);//读取定时器6的时间
+
         if(isGetGyroBiasFinished==false)
          getGyroBias(gyroOriginalData);
         else if(isGetGyroBiasFinished)
         {
           imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
-  //        NonlinearSO3AHRSupdate(dataProcessed, 1, 0.005, 0.005);
-  //        xEventGroupSetBits(xCreatedEventGroup,ifSensorsReadFinish);  //设置事件标志组的BIT0
-          //NonlinearSO3AHRSupdate(dataProcessed, 1, 0.005, deltaT/1000000.0f);
           vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
           xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
           xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
           if(MAG_SENSOR_ENABLE)
           {
-            xQueueOverwrite(magDataQueue,&dataProcessed.magDataProcessed);
+          //  xQueueOverwrite(magDataQueue,&dataProcessed.magDataProcessed);
           }
           isSensorFirstRead=1;
           xTaskResumeAll();
@@ -141,8 +150,7 @@ void vTaskDataUpload(void *pvParameters)
 			}
 			else if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad && DataToSend==USER_DATA)
 			{
-		 
-		 
+        data.DATA1=MS5611_Altitude;
 				Send_USERDATA(data);
 			}
 			while(1)

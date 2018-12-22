@@ -14,10 +14,11 @@
 #include "sysInit.h"
 #include "sensors.h"
 #include "mpu9250.h"
+#include "ultrasonic.h"
 #include "SWJ.h"
 #include "iic.h"
 #include "task.h"
 #include "flightStatus.h"
 #include "timer.h"
-
+#include "ms5611.h"
 #endif

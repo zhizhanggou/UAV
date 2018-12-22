@@ -28,6 +28,7 @@
 "..\obj\sensors.o"
 "..\obj\timer.o"
 "..\obj\ultrasonic.o"
+"..\obj\ms5611.o"
 "..\obj\flightstatus.o"
 "..\obj\croutine.o"
 "..\obj\event_groups.o"

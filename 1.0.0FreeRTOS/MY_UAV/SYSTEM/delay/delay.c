@@ -1,5 +1,6 @@
 #include "delay.h"
 #include "sys.h"
+#include "stm32f4xx_it.h"
 ////////////////////////////////////////////////////////////////////////////////// 	 
 //如果使用ucos,则包括下面的头文件即可.
 #if SYSTEM_SUPPORT_OS
@@ -101,6 +102,7 @@ static u32 sysTickCnt=0;
 extern void xPortSysTickHandler(void);
 void  SysTick_Handler(void)
 {
+  sysTickUptime++;
 	if(xTaskGetSchedulerState()!=taskSCHEDULER_NOT_STARTED)	/*系统已经运行*/
     {
         xPortSysTickHandler();	

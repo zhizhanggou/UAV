@@ -1,8 +1,7 @@
 #ifndef __MS5611_H
 #define __MS5611_H
 
-#include "sys.h"
-
+#include "includes.h"
 
 #define DEV_ADDR 		0XEE
 #define RESET_COM 	0X1E
@@ -32,12 +31,6 @@
 //#define  MS561101BA_D2_OSR_2048 0x56   
 #define  MS561101BA_D2_OSR_4096 0x58  
 
-#define MS5611_SDA_IN()  {GPIOD->MODER&=~(3<<(1*2));GPIOD->MODER|=0<<1*2;}	//PB9输入模式
-#define MS5611_SDA_OUT() {GPIOD->MODER&=~(3<<(1*2));GPIOD->MODER|=1<<1*2;} //PB9输出模式
-//IO操作函数	 
-#define MS5611_IIC_SCL    PDout(0) //SCL
-#define MS5611_IIC_SDA    PDout(1) //SDA	 
-#define MS5611_READ_SDA   PDin(1)  //输入SDA 
 
 extern volatile float MS5611_Temperature,MS5611_Pressure,MS5611_Altitude,MS5611_VerticalSpeed;
 
@@ -84,25 +77,17 @@ void MS5611_Init(void);
 uint8_t  WaitBaroInitOffset(void);
 void MS5611_ThreadNew(void) ;
 
-void MS561101BA_reset(void) ;
-void MS561101BA_readPROM(void) ;
-void MS561101BA_startConversion(uint8_t command) ;
-uint32_t MS561101BA_getConversion(void) ;
-
+void MS561101BA_reset(iic iicPort);
+void MS561101BA_readPROM(iic iicPort);
+void MS561101BA_startConversion(iic iicPort,uint8_t command);
+uint32_t MS561101BA_getConversion(iic iicPort);
+void MS561101BA_getPressure(void) ;
 
 void MS5611_Init(void);
-int MS5611_IIC_Start(void);				//发送IIC开始信号
-int MS5611_IIC_Stop(void);	  			//发送IIC停止信号
-void MS5611_IIC_Send_Byte(u8 txd);			//IIC发送一个字节
-u8 MS5611_IIC_Read_Byte(unsigned char ack);//IIC读取一个字节
-u8 MS5611_IIC_Wait_Ack(void); 				//IIC等待ACK信号
-void MS5611_IIC_Ack(void);					//IIC发送ACK信号
-void MS5611_IIC_NAck(void);				//IIC不发送ACK信号
-u8 MS5611_IIC_Read(u8 Slaveaddress,u8 REG_Address);
-void MS5611_IIC_Write(u8 Slaveaddress,u8 REG_Address,u8 REG_data);
-void I2C_NoAddr_WriteByte(unsigned char DeviceAddr,unsigned char info);  
-uint16_t I2C_Read_2Bytes(unsigned char DeviceAddr,unsigned char address);
-uint32_t I2C_Read_3Bytes(unsigned char DeviceAddr,unsigned char address);   
+void ms5611_IIC_Write(iic iicPort,u8 Slaveaddress,u8 REG_Address,u8 REG_data);
+void IIC_NoAddr_WriteByte(iic iicPort,u8 Slaveaddress,u8 REG_data);  
+uint16_t IIC_Read_2Bytes(iic iicPort,u8 Slaveaddress,u8 REG_Address);
+uint32_t IIC_Read_3Bytes(iic iicPort,u8 Slaveaddress,u8 REG_Address);   
 
 #endif
 
