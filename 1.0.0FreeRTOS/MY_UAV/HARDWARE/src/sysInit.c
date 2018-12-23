@@ -14,6 +14,6 @@ void sysInit()
   MS5611_Init();
   sensorsInit();
 	sensorsQueueInit();					//传感器消息队列初始化
-	
+//	DataToSend=USER_DATA;
    
 }

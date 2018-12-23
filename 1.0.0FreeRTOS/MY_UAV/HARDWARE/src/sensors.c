@@ -1,10 +1,10 @@
 #include "sensors.h"
 #include "math.h"
 xSemaphoreHandle sensorsDataReady;
- xQueueHandle gyroDataQueue;
- xQueueHandle accDataQueue;
- xQueueHandle magDataQueue;
- xQueueHandle baroDataQueue;
+xQueueHandle gyroDataQueue;
+xQueueHandle accDataQueue;
+xQueueHandle magDataQueue;
+xQueueHandle baroDataQueue;
 GyroBias gyroBias;
 Axis3f accBias,accT; //加计零偏与缩放系数
 Axis3i16 gyroBiasSampleBuffer[GYRO_BIAS_SAMPLES_NUM];

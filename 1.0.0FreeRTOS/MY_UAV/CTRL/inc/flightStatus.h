@@ -6,7 +6,7 @@
 #include "sensorsType.h"
 #include "sensors.h"
 #define PI 3.14159f
-
+#define STANDARD_ATMOSPHERIC_PRESSURE 101325.0f
 typedef struct
 {
   Axis3f attitude;

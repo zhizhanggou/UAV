@@ -87,10 +87,10 @@ void Send_RCData(HMI_data data,float angle_rol, float angle_pit, float angle_yaw
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	
-	data_to_send[_cnt++]=BYTE3(_temp2);
-	data_to_send[_cnt++]=BYTE2(_temp2);
-	data_to_send[_cnt++]=BYTE1(_temp2);
-	data_to_send[_cnt++]=BYTE0(_temp2);
+	data_to_send[_cnt++]=BYTE3(alt);
+	data_to_send[_cnt++]=BYTE2(alt);
+	data_to_send[_cnt++]=BYTE1(alt);
+	data_to_send[_cnt++]=BYTE0(alt);
 	
 	data_to_send[_cnt++] = fly_model;
 	
@@ -156,7 +156,7 @@ void Send_RCData(HMI_data data,float angle_rol, float angle_pit, float angle_yaw
 USER User_Data;
 void Send_USERDATA(USER data)
 {
-	u8 data_to_send[100];
+	u8 data_to_send[80];
 	vs16 _temp;
 	u8 _cnt=0;
 	u8 sum = 0;
@@ -176,48 +176,48 @@ void Send_USERDATA(USER data)
 	data_to_send[_cnt++]=BYTE1(data.DATA2);
 	data_to_send[_cnt++]=BYTE0(data.DATA2);
 
-	data_to_send[_cnt++]=BYTE3(data.DATA3);
-	data_to_send[_cnt++]=BYTE2(data.DATA3);
-	data_to_send[_cnt++]=BYTE1(data.DATA3);
-	data_to_send[_cnt++]=BYTE0(data.DATA3);
+//	data_to_send[_cnt++]=BYTE3(data.DATA3);
+//	data_to_send[_cnt++]=BYTE2(data.DATA3);
+//	data_to_send[_cnt++]=BYTE1(data.DATA3);
+//	data_to_send[_cnt++]=BYTE0(data.DATA3);
 
-	data_to_send[_cnt++]=BYTE3(data.DATA4);
-	data_to_send[_cnt++]=BYTE2(data.DATA4);
-	data_to_send[_cnt++]=BYTE1(data.DATA4);
-	data_to_send[_cnt++]=BYTE0(data.DATA4);
+//	data_to_send[_cnt++]=BYTE3(data.DATA4);
+//	data_to_send[_cnt++]=BYTE2(data.DATA4);
+//	data_to_send[_cnt++]=BYTE1(data.DATA4);
+//	data_to_send[_cnt++]=BYTE0(data.DATA4);
 
-	data_to_send[_cnt++]=BYTE3(data.DATA5);
-	data_to_send[_cnt++]=BYTE2(data.DATA5);
-	data_to_send[_cnt++]=BYTE1(data.DATA5);
-	data_to_send[_cnt++]=BYTE0(data.DATA5);
+//	data_to_send[_cnt++]=BYTE3(data.DATA5);
+//	data_to_send[_cnt++]=BYTE2(data.DATA5);
+//	data_to_send[_cnt++]=BYTE1(data.DATA5);
+//	data_to_send[_cnt++]=BYTE0(data.DATA5);
 
-	data_to_send[_cnt++]=BYTE3(data.DATA6);
-	data_to_send[_cnt++]=BYTE2(data.DATA6);
-	data_to_send[_cnt++]=BYTE1(data.DATA6);
-	data_to_send[_cnt++]=BYTE0(data.DATA6);
+//	data_to_send[_cnt++]=BYTE3(data.DATA6);
+//	data_to_send[_cnt++]=BYTE2(data.DATA6);
+//	data_to_send[_cnt++]=BYTE1(data.DATA6);
+//	data_to_send[_cnt++]=BYTE0(data.DATA6);
 
-	data_to_send[_cnt++]=BYTE3(data.DATA7);
-	data_to_send[_cnt++]=BYTE2(data.DATA7);
-	data_to_send[_cnt++]=BYTE1(data.DATA7);
-	data_to_send[_cnt++]=BYTE0(data.DATA7);
-
-
-	data_to_send[_cnt++]=BYTE3(data.DATA8);
-	data_to_send[_cnt++]=BYTE2(data.DATA8);
-	data_to_send[_cnt++]=BYTE1(data.DATA8);
-	data_to_send[_cnt++]=BYTE0(data.DATA8);
+//	data_to_send[_cnt++]=BYTE3(data.DATA7);
+//	data_to_send[_cnt++]=BYTE2(data.DATA7);
+//	data_to_send[_cnt++]=BYTE1(data.DATA7);
+//	data_to_send[_cnt++]=BYTE0(data.DATA7);
 
 
-	data_to_send[_cnt++]=BYTE3(data.DATA9);
-	data_to_send[_cnt++]=BYTE2(data.DATA9);
-	data_to_send[_cnt++]=BYTE1(data.DATA9);
-	data_to_send[_cnt++]=BYTE0(data.DATA9);
+//	data_to_send[_cnt++]=BYTE3(data.DATA8);
+//	data_to_send[_cnt++]=BYTE2(data.DATA8);
+//	data_to_send[_cnt++]=BYTE1(data.DATA8);
+//	data_to_send[_cnt++]=BYTE0(data.DATA8);
+
+
+//	data_to_send[_cnt++]=BYTE3(data.DATA9);
+//	data_to_send[_cnt++]=BYTE2(data.DATA9);
+//	data_to_send[_cnt++]=BYTE1(data.DATA9);
+//	data_to_send[_cnt++]=BYTE0(data.DATA9);
 	data_to_send[3] = _cnt-4;
 	for(int i=0;i<_cnt;i++)
 		sum += data_to_send[i];
 	
 	data_to_send[_cnt++]=sum;
-	UART1DMA_USART_Transmit(&UART1_Handler,(uint8_t *)data_to_send,_cnt);
+	UART1DMA_USART_Transmit(&UART1_Handler,data_to_send,_cnt);
 }
 ///*******************************************/
 

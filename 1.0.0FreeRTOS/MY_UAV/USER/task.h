@@ -9,7 +9,7 @@
 #define MAG_READ_LOOP_TIME 20  //磁力计读取周期，单位ms
 
 extern EventGroupHandle_t xUploadEventGroup,xSensorEventGroup;
-extern TaskHandle_t xTaskAttitudeAlgorithm;
+
 void vTaskDataUpload(void *pvParameters);
 void vTaskAttitudeAlgorithm(void *pvParameters);
 void vTaskReadSenser(void *pvParameters);

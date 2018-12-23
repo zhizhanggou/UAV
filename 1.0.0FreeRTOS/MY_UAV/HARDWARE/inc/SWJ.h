@@ -6,7 +6,7 @@
 #define USER_DATA 1
 #define STATUS_DATA 0
 
-typedef struct HMI
+typedef struct 
 {
 		int ACC_X;
 		int ACC_Y;
@@ -19,7 +19,7 @@ typedef struct HMI
 		int MAG_Z;
 }HMI_data;
 
-typedef struct USER
+typedef struct 
 {
 		float DATA1;
 		float DATA2;

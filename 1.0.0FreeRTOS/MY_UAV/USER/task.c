@@ -3,13 +3,11 @@
 
 EventGroupHandle_t xUploadEventGroup;
 EventGroupHandle_t xSensorEventGroup;
-TaskHandle_t xTaskAttitudeAlgorithm = NULL;
-uint8_t isSensorFirstRead=0;
 /******************************************
 姿态解算任务
 ******************************************/
 
-int deltaT;//两次传感器数据读取的时间差
+uint16_t deltaT;//两次传感器数据读取的时间差
 
 void vTaskAttitudeAlgorithm(void *pvParameters)
 {
@@ -22,11 +20,11 @@ void vTaskAttitudeAlgorithm(void *pvParameters)
       if(isGetGyroBiasFinished) 
       {
         
-        if(isSensorFirstRead)
+        if(xQueueReceive(accDataQueue, data.accDataProcessed, 0)==pdTRUE)
         {
-          xQueueReceive(accDataQueue, data.accDataProcessed, 0);
           xQueueReceive(gyroDataQueue, data.gyroDataProcessed, 0);
           NonlinearSO3AHRSupdate(data, 1, 0.005, deltaT/1000000.0f);
+          
         }
           
       }
@@ -89,7 +87,6 @@ void vTaskReadSenser(void *pvParameters)
           {
           //  xQueueOverwrite(magDataQueue,&dataProcessed.magDataProcessed);
           }
-          isSensorFirstRead=1;
           xTaskResumeAll();
           
         }
@@ -125,33 +122,45 @@ void vTaskDataUpload(void *pvParameters)
                                  pdTRUE, /* 退出前 bit0 和 bit1 被清除 */
                                  pdTRUE, /* 设置为 pdTRUE 表示等待 bit1 和 bit0 都被设置*/
                                  portMAX_DELAY); /* 等待延迟时间 */
-			if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad && DataToSend==STATUS_DATA)
+			if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad)
 			{
-				mpu9250_data.ACC_X=accOriginalData.x;
-        mpu9250_data.ACC_Y=accOriginalData.y;
-        mpu9250_data.ACC_Z=accOriginalData.z;
-        if(isGetGyroBiasFinished)
+        if(DataToSend==STATUS_DATA)
         {
-           mpu9250_data.GYRO_X=gyroOriginalData.x-gyroBias.value.x;
-           mpu9250_data.GYRO_Y=gyroOriginalData.y-gyroBias.value.y;
-           mpu9250_data.GYRO_Z=gyroOriginalData.z-gyroBias.value.z;
+            mpu9250_data.ACC_X=accOriginalData.x;
+            mpu9250_data.ACC_Y=accOriginalData.y;
+            mpu9250_data.ACC_Z=accOriginalData.z;
+            if(isGetGyroBiasFinished)
+            {
+               mpu9250_data.GYRO_X=gyroOriginalData.x-gyroBias.value.x;
+               mpu9250_data.GYRO_Y=gyroOriginalData.y-gyroBias.value.y;
+               mpu9250_data.GYRO_Z=gyroOriginalData.z-gyroBias.value.z;
+            }
+            else
+            {
+               mpu9250_data.GYRO_X=gyroOriginalData.x;
+               mpu9250_data.GYRO_Y=gyroOriginalData.y;
+               mpu9250_data.GYRO_Z=gyroOriginalData.z;
+            }
+            mpu9250_data.MAG_X=magOriginalData.x;
+            mpu9250_data.MAG_Y=magOriginalData.y;
+            mpu9250_data.MAG_Z=magOriginalData.z;
+         
+            Send_RCData(mpu9250_data,flightStatus.attitude.x,flightStatus.attitude.y,flightStatus.attitude.z,MS5611_Altitude,0,0);
         }
-        else
+        else if(DataToSend==USER_DATA)
         {
-           mpu9250_data.GYRO_X=gyroOriginalData.x;
-           mpu9250_data.GYRO_Y=gyroOriginalData.y;
-           mpu9250_data.GYRO_Z=gyroOriginalData.z;
+            data.DATA1=MS5611_Altitude;
+            data.DATA2=0.0f;
+            data.DATA3=0.0f;
+            data.DATA4=0.0f;
+            data.DATA5=0.0f;
+            data.DATA6=0.0f;
+            data.DATA7=0.0f;
+            data.DATA8=0.0f;
+            data.DATA9=0.0f;
+            Send_USERDATA(data);
         }
-        mpu9250_data.MAG_X=magOriginalData.x;
-        mpu9250_data.MAG_Y=magOriginalData.y;
-        mpu9250_data.MAG_Z=magOriginalData.z;
-     
-        Send_RCData(mpu9250_data,flightStatus.attitude.x,flightStatus.attitude.y,flightStatus.attitude.z,0,0,0);
-			}
-			else if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad && DataToSend==USER_DATA)
-			{
-        data.DATA1=MS5611_Altitude;
-				Send_USERDATA(data);
+
 			}
 			while(1)
 			{

@@ -37,7 +37,7 @@ void NonlinearSO3AHRSinit(DataProcessed data)
 {
     float initialRoll, initialPitch;
     float cosRoll, sinRoll, cosPitch, sinPitch;
-    float magX, magY;
+//    float magX, magY;
     float initialHdg, cosHeading, sinHeading;
 
     initialRoll = atan2(data.accDataProcessed[1], data.accDataProcessed[2]);     //此处对准完成
@@ -48,11 +48,11 @@ void NonlinearSO3AHRSinit(DataProcessed data)
     cosPitch = cosf(initialPitch);
     sinPitch = sinf(initialPitch);
 
-    magX = data.magDataProcessed[0] * cosPitch + data.magDataProcessed[1] * sinRoll * sinPitch + data.magDataProcessed[2] * cosRoll * sinPitch;
+//    magX = data.magDataProcessed[0] * cosPitch + data.magDataProcessed[1] * sinRoll * sinPitch + data.magDataProcessed[2] * cosRoll * sinPitch;
 
-    magY = data.magDataProcessed[1] * cosRoll - data.magDataProcessed[2] * sinRoll;
+//    magY = data.magDataProcessed[1] * cosRoll - data.magDataProcessed[2] * sinRoll;
 
-    initialHdg = atan2f(-magY, magX);    //此处对准完成
+//    initialHdg = atan2f(-magY, magX);    //此处对准完成
 
     cosRoll = cosf(initialRoll * 0.5f);
     sinRoll = sinf(initialRoll * 0.5f);

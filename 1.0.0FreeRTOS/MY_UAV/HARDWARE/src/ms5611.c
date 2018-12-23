@@ -123,24 +123,24 @@ float MS561101BA_get_altitude(void)
 	static float Altitude;
 
 	// 是否初始化过0米气压值？
-	if(Alt_offset_Pa == 0)
-	{ 
-		if(paInitCnt > PA_OFFSET_INIT_NUM)
-		{
-			Alt_offset_Pa = paOffsetNum / paInitCnt;
-			paOffsetInited=1;
-		}
-		else
-			paOffsetNum += MS5611_Pressure;
-		
-		paInitCnt++;
-		
-		Altitude = 0; //高度 为 0
-		
-		return Altitude;
-	}
+//	if(Alt_offset_Pa == 0)
+//	{ 
+//		if(paInitCnt > PA_OFFSET_INIT_NUM)
+//		{
+//			Alt_offset_Pa = paOffsetNum / paInitCnt;
+//			paOffsetInited=1;
+//		}
+//		else
+//			paOffsetNum += MS5611_Pressure;
+//		
+//		paInitCnt++;
+//		
+//		Altitude = 0; //高度 为 0
+//		
+//		return Altitude;
+//	}
 	//计算相对于上电时的位置的高度值 。单位为m
-	Altitude = 4433000.0 * (1 - pow((MS5611_Pressure / Alt_offset_Pa), 0.190295f))*0.01f;
+	Altitude = 4433000.0 * (1 - pow((MS5611_Pressure / STANDARD_ATMOSPHERIC_PRESSURE), 0.190295f))*0.01f;
 	Altitude = Altitude + Alt_Offset_m ;  //加偏置
 
 
@@ -208,19 +208,19 @@ void MS561101BA_getPressure(void)
 	
 	MS5611_Temperature = MS561101BA_getAvg(Temp_buffer,MOVAVG_SIZE); //0.01c
 	
-	if(Alt_offset_count<Alt_offset_num && MS5611_Pressure>0 )   //计算气压计偏置
-	{
-		Alt_offset_count++;
-		if(Alt_offset_count>=100)
-		{
-			Alt_offset_temp+=MS5611_Pressure;
-			Alt_offset_Pa=Alt_offset_temp/((Alt_offset_count-100)*1.0);
-		}
-	}
-	else if(MS5611_Pressure>0)
-	{   
+//	if(Alt_offset_count<Alt_offset_num && MS5611_Pressure>0 )   //计算气压计偏置
+//	{
+//		Alt_offset_count++;
+//		if(Alt_offset_count>=100)
+//		{
+//			Alt_offset_temp+=MS5611_Pressure;
+//			Alt_offset_Pa=Alt_offset_temp/((Alt_offset_count-100)*1.0);
+//		}
+//	}
+//	else if(MS5611_Pressure>0)
+//	{   
     MS5611_Altitude = MS561101BA_get_altitude(); // 单位：cm 
-	}
+//	}
 }
 
 
