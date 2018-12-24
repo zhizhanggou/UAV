@@ -62,6 +62,7 @@ typedef enum
 }axis;
 
 extern Axis3i16 accOriginalData,gyroOriginalData,magOriginalData;
+extern bool isMagDataReady;
 u8 MPU9250_IIC_Read(iic iicPort,u8 Slaveaddress,u8 REG_Address);
 void MPU9250_IIC_Write(iic iicPort,u8 Slaveaddress,u8 REG_Address,u8 REG_data);
 void READ_MPU9250_GYRO(void);

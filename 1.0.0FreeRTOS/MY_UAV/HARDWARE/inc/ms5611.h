@@ -67,15 +67,15 @@ extern volatile float MS5611_Temperature,MS5611_Pressure,MS5611_Altitude,MS5611_
 extern volatile float MS5611_Temperature,MS5611_Pressure,MS5611_Altitude,MS5611_VerticalSpeed;
 
 extern uint8_t Baro_ALT_Updated;
-extern uint8_t paOffsetInited;
-
-
+extern bool isGetAtitudeOffsetFinished;
+extern bool isAltitudeDataReady;
 
 
 
 void MS5611_Init(void);
 uint8_t  WaitBaroInitOffset(void);
 void MS5611_ThreadNew(void) ;
+void getAltitudeOffset(float attitude);
 
 void MS561101BA_reset(iic iicPort);
 void MS561101BA_readPROM(iic iicPort);

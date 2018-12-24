@@ -24,16 +24,18 @@ static uint32_t Current_delay=0;	    //转换延时时间 us
 static uint32_t Start_Convert_Time; //启动转换时的 时间 us 
 static int32_t  tempCache;
 
+
+bool isGetAtitudeOffsetFinished=false;
+bool isAltitudeDataReady=false;
 static float Alt_Offset_m = 0;
 
 //
-#define PA_OFFSET_INIT_NUM 50	
+#define ALT_OFFSET_INIT_NUM 50	
 
 static float Alt_offset_Pa=0; //存放着0米(离起飞所在平面)时 对应的气压值  这个值存放上电时的气压值 
-double paOffsetNum = 0; 
-uint16_t  paInitCnt=0;
+uint16_t  AltGetOffsetCnt=0;
 
-uint8_t paOffsetInited=0;
+//uint8_t paOffsetInited=0;
 
 //interface for outside 
 uint8_t Baro_ALT_Updated = 0; //气压计高度更新完成标志。
@@ -121,13 +123,23 @@ void MS561101BA_GetTemperature(void)
 float MS561101BA_get_altitude(void)
 {
 	static float Altitude;
+	
 
-	// 是否初始化过0米气压值？
-//	if(Alt_offset_Pa == 0)
+
+	//计算相对于上电时的位置的高度值 。单位为m
+	Altitude = 4433000.0 * (1 - pow((MS5611_Pressure / STANDARD_ATMOSPHERIC_PRESSURE), 0.190295f))*0.01f;
+	if(isGetAtitudeOffsetFinished==false)
+	{
+		getAltitudeOffset(Altitude);
+		return Altitude;
+	}
+	// 是否初始化过起飞位置高度？
+
+//	if(Alt_Offset_m == 0)
 //	{ 
 //		if(paInitCnt > PA_OFFSET_INIT_NUM)
 //		{
-//			Alt_offset_Pa = paOffsetNum / paInitCnt;
+//			temp+=Altitude;
 //			paOffsetInited=1;
 //		}
 //		else
@@ -139,14 +151,31 @@ float MS561101BA_get_altitude(void)
 //		
 //		return Altitude;
 //	}
-	//计算相对于上电时的位置的高度值 。单位为m
-	Altitude = 4433000.0 * (1 - pow((MS5611_Pressure / STANDARD_ATMOSPHERIC_PRESSURE), 0.190295f))*0.01f;
-	Altitude = Altitude + Alt_Offset_m ;  //加偏置
+	Altitude = Altitude - Alt_Offset_m ;  //加偏置
 
 
 	
 	return Altitude; 
 }
+
+
+void getAltitudeOffset(float attitude)
+{
+	static float attitudeTemp;
+	if(AltGetOffsetCnt<ALT_OFFSET_INIT_NUM)	
+	{
+		attitudeTemp+=attitude;
+		AltGetOffsetCnt++;
+	}
+	else if(AltGetOffsetCnt==ALT_OFFSET_INIT_NUM)
+	{
+		Alt_Offset_m=attitudeTemp/ALT_OFFSET_INIT_NUM;
+		AltGetOffsetCnt++;
+		isGetAtitudeOffsetFinished=true;
+	}
+}
+
+
 
 /**************************实现函数********************************************
 *函数原型:		void MS561101BA_getPressure(void)
@@ -208,19 +237,10 @@ void MS561101BA_getPressure(void)
 	
 	MS5611_Temperature = MS561101BA_getAvg(Temp_buffer,MOVAVG_SIZE); //0.01c
 	
-//	if(Alt_offset_count<Alt_offset_num && MS5611_Pressure>0 )   //计算气压计偏置
-//	{
-//		Alt_offset_count++;
-//		if(Alt_offset_count>=100)
-//		{
-//			Alt_offset_temp+=MS5611_Pressure;
-//			Alt_offset_Pa=Alt_offset_temp/((Alt_offset_count-100)*1.0);
-//		}
-//	}
-//	else if(MS5611_Pressure>0)
-//	{   
-    MS5611_Altitude = MS561101BA_get_altitude(); // 单位：cm 
-//	}
+  MS5611_Altitude = MS561101BA_get_altitude(); // 单位：cm 
+	dataProcessed.baroAltitude=MS5611_Altitude;
+	isAltitudeDataReady=true;
+
 }
 
 
@@ -366,24 +386,24 @@ void MS5611_ThreadNew(void)
 	}
 }
 //注意，使用前确保
-uint8_t  WaitBaroInitOffset(void)
-{
-	uint32_t startTime=0;
-	uint32_t now=0;
-	
-	startTime=micros();	//us
-  while(!paOffsetInited)
-	{
-			MS5611_ThreadNew();
-			now=micros();
-			if((now-startTime)/1000 >= PA_OFFSET_INIT_NUM * 50)	//超时
-			{
-				return 0;
-			}
-	}
-	
-	return 1;
-}
+//uint8_t  WaitBaroInitOffset(void)
+//{
+//	uint32_t startTime=0;
+//	uint32_t now=0;
+//	
+//	startTime=micros();	//us
+//  while(!paOffsetInited)
+//	{
+//			MS5611_ThreadNew();
+//			now=micros();
+//			if((now-startTime)/1000 >= PA_OFFSET_INIT_NUM * 50)	//超时
+//			{
+//				return 0;
+//			}
+//	}
+//	
+//	return 1;
+//}
 
 
 /**********************IIC协议**********************/

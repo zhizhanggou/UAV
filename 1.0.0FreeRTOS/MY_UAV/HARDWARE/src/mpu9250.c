@@ -2,7 +2,7 @@
 #include "mpu9250.h"
 
 iic mpu9250_iic,mpu9250_mag_iic;
-
+bool isMagDataReady=false;
 
 
 Axis3i16 accOriginalData,gyroOriginalData,magOriginalData;
@@ -22,13 +22,13 @@ void mpu9250_Init()
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,ACCEL_CONFIG, 0x10);  //加速度计量程是8g
 	
 	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,USER_CTRL,0x00);		//关闭IIC主机模式
-   MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,INT_PIN_CFG, 0X02);
-   MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0x00);	
+	MPU9250_IIC_Write(mpu9250_iic,MPU9250_ADDRESS,INT_PIN_CFG, 0X02);
+	MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0x00);	
 	ASA[X]=MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ASAX);
-   ASA[Y]=MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ASAY);
-   ASA[Z]=MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ASAZ);
+	ASA[Y]=MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ASAY);
+	ASA[Z]=MPU9250_IIC_Read(mpu9250_iic,MAG_ADDRESS,MAG_ASAZ);
 	delay_ms(50);
-   MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0x01);		//设置AK8963为单次测量模式
+	MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0x01);		//设置AK8963为单次测量模式
 }
 
 
@@ -76,9 +76,10 @@ void READ_MPU9250_GYRO(void)
 }
 void READ_MPU9250_MAG(void)
 { 
-   magOriginalData.x=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_XOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_XOUT_H)<<8)); 
-   magOriginalData.y=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_YOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_YOUT_H)<<8)); 
-   magOriginalData.z=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_ZOUT_H)<<8));
-   MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0X01);		//设置AK8963为单次测量模式 14bit精度
+	magOriginalData.x=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_XOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_XOUT_H)<<8)); 
+	magOriginalData.y=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_YOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_YOUT_H)<<8)); 
+	magOriginalData.z=(MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_ZOUT_L) | (MPU9250_IIC_Read(mpu9250_mag_iic,MAG_ADDRESS,MAG_ZOUT_H)<<8));
+	MPU9250_IIC_Write(mpu9250_iic,MAG_ADDRESS,MAG_CNTL1,0X01);		//设置AK8963为单次测量模式 14bit精度
+	isMagDataReady=true;
 }
 

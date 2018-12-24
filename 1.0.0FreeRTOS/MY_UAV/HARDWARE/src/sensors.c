@@ -4,7 +4,7 @@ xSemaphoreHandle sensorsDataReady;
 xQueueHandle gyroDataQueue;
 xQueueHandle accDataQueue;
 xQueueHandle magDataQueue;
-xQueueHandle baroDataQueue;
+xQueueHandle atltitudeDataQueue;
 GyroBias gyroBias;
 Axis3f accBias,accT; //加计零偏与缩放系数
 Axis3i16 gyroBiasSampleBuffer[GYRO_BIAS_SAMPLES_NUM];
@@ -112,7 +112,18 @@ void imuOriginalDataProcessing(Axis3i16 accData,Axis3i16 gyroData,Axis3i16 magDa
 	 dataProcessed.accDataProcessed[0]=accData.x*ACC_GAIN;
    dataProcessed.accDataProcessed[1]=accData.y*ACC_GAIN;
    dataProcessed.accDataProcessed[2]=accData.z*ACC_GAIN;
-   
 }
 
 
+
+
+
+
+
+bool isSensorAllReady()
+{
+	if(isGetGyroBiasFinished && isGetAtitudeOffsetFinished)
+		return true;
+	else 
+		return false;
+}

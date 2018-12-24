@@ -29,11 +29,12 @@ void sensorsQueueInit(void);
 bool getGyroBias(Axis3i16 data);
 void getGyroBiasMeanAndVar(Axis3i16 *buffer);   //计算平均值和方差
 void imuOriginalDataProcessing(Axis3i16 accData,Axis3i16 gyroData,Axis3i16 magData);
+bool isSensorAllReady(void);
 //void NonlinearSO3AHRSupdate(DataProcessed data, float twoKp, float twoKi, float dt);
 extern xQueueHandle accDataQueue;
 extern xQueueHandle gyroDataQueue;
 extern xQueueHandle magDataQueue;
-extern xQueueHandle baroDataQueue;
+extern xQueueHandle atltitudeDataQueue;
 extern bool isBufferFulled,isGetGyroBiasFinished;
 extern GyroBias gyroBias;
 extern DataProcessed dataProcessed;

@@ -569,6 +569,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\src\ultrasonic.c</FilePath>
             </File>
+            <File>
+              <FileName>ms5611.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\src\ms5611.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -217,7 +217,7 @@ void Send_USERDATA(USER data)
 		sum += data_to_send[i];
 	
 	data_to_send[_cnt++]=sum;
-	UART1DMA_USART_Transmit(&UART1_Handler,data_to_send,_cnt);
+	UART1DMA_USART_Transmit(&UART1_Handler,(uint8_t *)data_to_send,_cnt);
 }
 ///*******************************************/
 

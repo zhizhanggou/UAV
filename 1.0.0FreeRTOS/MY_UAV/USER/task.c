@@ -17,15 +17,21 @@ void vTaskAttitudeAlgorithm(void *pvParameters)
    while(1)
    { 
       vTaskDelayUntil(&lastWakeTime,MAIN_LOOP_TIME);
-      if(isGetGyroBiasFinished) 
+      if(isSensorAllReady()) 
       {
         
-        if(xQueueReceive(accDataQueue, data.accDataProcessed, 0)==pdTRUE)
+        if(xQueueReceive(accDataQueue, data.accDataProcessed, 0)==pdTRUE && xQueueReceive(gyroDataQueue, data.gyroDataProcessed, 0)==pdTRUE)
         {
-          xQueueReceive(gyroDataQueue, data.gyroDataProcessed, 0);
           NonlinearSO3AHRSupdate(data, 1, 0.005, deltaT/1000000.0f);
-          
         }
+				if(xQueueReceive(atltitudeDataQueue, &data.baroAltitude, 0)==pdTRUE)
+				{
+					
+				}
+				if(xQueueReceive(atltitudeDataQueue, &data.magDataProcessed, 0)==pdTRUE)
+				{
+					
+				}
           
       }
 
@@ -65,29 +71,34 @@ void vTaskReadSenser(void *pvParameters)
         runingCount++;
         if(runingCount>100)   //进入读取任务的计数
         {
-          runingCount=0;
+						runingCount=0;
         }
         
         READ_MPU9250_ACCEL();
         READ_MPU9250_GYRO();
-        if(runingCount%(MAG_READ_LOOP_TIME/MAIN_LOOP_TIME)==0 && MAG_SENSOR_ENABLE)
-          READ_MPU9250_MAG();
+        if(runingCount%(MAG_READ_LOOP_TIME/MAIN_LOOP_TIME)==0 && MAG_SENSOR_ENABLE) //以一定周期执行磁力计读取
+						READ_MPU9250_MAG();
         MS5611_ThreadNew();
       // deltaT=__HAL_TIM_GetCounter(&TIM6_Handler);//读取定时器6的时间
-
-        if(isGetGyroBiasFinished==false)
-         getGyroBias(gyroOriginalData);
-        else if(isGetGyroBiasFinished)
+				if(isGetGyroBiasFinished==false)
+						getGyroBias(gyroOriginalData);
+        else if(isSensorAllReady())
         {
-          imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
-          vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
-          xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
-          xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
-          if(MAG_SENSOR_ENABLE)
-          {
-          //  xQueueOverwrite(magDataQueue,&dataProcessed.magDataProcessed);
-          }
-          xTaskResumeAll();
+						imuOriginalDataProcessing(accOriginalData,gyroOriginalData,magOriginalData);
+						vTaskSuspendAll();	/*确保同一时刻把数据放入队列中*/
+						xQueueOverwrite(accDataQueue,dataProcessed.accDataProcessed);
+						xQueueOverwrite(gyroDataQueue,dataProcessed.gyroDataProcessed);
+						if(isAltitudeDataReady)
+						{
+								xQueueOverwrite(atltitudeDataQueue,&dataProcessed.baroAltitude);
+								isAltitudeDataReady=false;
+						}
+						if(MAG_SENSOR_ENABLE&&isMagDataReady==true)
+						{
+								xQueueOverwrite(magDataQueue,&dataProcessed.magDataProcessed);
+								isMagDataReady=false;
+						}
+						xTaskResumeAll();
           
         }
         xEventGroupSetBits(xUploadEventGroup,ifDataReadyUpLoad2);  //设置事件标志组的BIT0
@@ -183,7 +194,7 @@ void vTaskIndicatorLED(void *pvParameters)
 {
    while(1)
    {
-       if(isGetGyroBiasFinished==false)
+       if(isSensorAllReady()==false)
           ledFlash(200,200);
    }
 }

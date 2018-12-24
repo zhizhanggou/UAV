@@ -18,9 +18,10 @@ typedef struct
 
 typedef struct 
 {
-   float gyroDataProcessed[3];
-   float accDataProcessed[3];
-	float magDataProcessed[3];
+		float gyroDataProcessed[3];
+		float accDataProcessed[3];
+		float magDataProcessed[3];
+		float baroAltitude;
 }DataProcessed;
 
 
