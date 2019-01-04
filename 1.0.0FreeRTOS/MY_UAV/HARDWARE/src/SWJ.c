@@ -9,7 +9,7 @@ u8 TxBuffer[256];
 #define BYTE3(dwTemp)       ( *( (char *)(&dwTemp) + 3) )
 
 
-u8 DataToSend=STATUS_DATA;
+u8 dataType=STATUS_DATA;
 u8 count=0;
 //void Uart1_Put_Buf(unsigned char *DataToSend , u8 data_num)
 //{
@@ -153,11 +153,10 @@ void Send_RCData(HMI_data data,float angle_rol, float angle_pit, float angle_yaw
 
 /************************自定义数据***************************/
 
-USER User_Data;
 void Send_USERDATA(USER data)
 {
 	u8 data_to_send[80];
-	vs16 _temp;
+	vs32 _temp;
 	u8 _cnt=0;
 	u8 sum = 0;
 /***************************传感器数据****************************/
@@ -165,7 +164,6 @@ void Send_USERDATA(USER data)
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xF1;
 	data_to_send[_cnt++]=0;
-   
 	data_to_send[_cnt++]=BYTE3(data.DATA1);
 	data_to_send[_cnt++]=BYTE2(data.DATA1);
 	data_to_send[_cnt++]=BYTE1(data.DATA1);
@@ -176,42 +174,40 @@ void Send_USERDATA(USER data)
 	data_to_send[_cnt++]=BYTE1(data.DATA2);
 	data_to_send[_cnt++]=BYTE0(data.DATA2);
 
-//	data_to_send[_cnt++]=BYTE3(data.DATA3);
-//	data_to_send[_cnt++]=BYTE2(data.DATA3);
-//	data_to_send[_cnt++]=BYTE1(data.DATA3);
-//	data_to_send[_cnt++]=BYTE0(data.DATA3);
+	data_to_send[_cnt++]=BYTE3(data.DATA3);
+	data_to_send[_cnt++]=BYTE2(data.DATA3);
+	data_to_send[_cnt++]=BYTE1(data.DATA3);
+	data_to_send[_cnt++]=BYTE0(data.DATA3);
 
-//	data_to_send[_cnt++]=BYTE3(data.DATA4);
-//	data_to_send[_cnt++]=BYTE2(data.DATA4);
-//	data_to_send[_cnt++]=BYTE1(data.DATA4);
-//	data_to_send[_cnt++]=BYTE0(data.DATA4);
-
-//	data_to_send[_cnt++]=BYTE3(data.DATA5);
-//	data_to_send[_cnt++]=BYTE2(data.DATA5);
-//	data_to_send[_cnt++]=BYTE1(data.DATA5);
-//	data_to_send[_cnt++]=BYTE0(data.DATA5);
-
-//	data_to_send[_cnt++]=BYTE3(data.DATA6);
-//	data_to_send[_cnt++]=BYTE2(data.DATA6);
-//	data_to_send[_cnt++]=BYTE1(data.DATA6);
-//	data_to_send[_cnt++]=BYTE0(data.DATA6);
-
-//	data_to_send[_cnt++]=BYTE3(data.DATA7);
-//	data_to_send[_cnt++]=BYTE2(data.DATA7);
-//	data_to_send[_cnt++]=BYTE1(data.DATA7);
-//	data_to_send[_cnt++]=BYTE0(data.DATA7);
-
-
-//	data_to_send[_cnt++]=BYTE3(data.DATA8);
-//	data_to_send[_cnt++]=BYTE2(data.DATA8);
-//	data_to_send[_cnt++]=BYTE1(data.DATA8);
-//	data_to_send[_cnt++]=BYTE0(data.DATA8);
-
-
-//	data_to_send[_cnt++]=BYTE3(data.DATA9);
-//	data_to_send[_cnt++]=BYTE2(data.DATA9);
-//	data_to_send[_cnt++]=BYTE1(data.DATA9);
-//	data_to_send[_cnt++]=BYTE0(data.DATA9);
+	data_to_send[_cnt++]=BYTE3(data.DATA4);
+	data_to_send[_cnt++]=BYTE2(data.DATA4);
+	data_to_send[_cnt++]=BYTE1(data.DATA4);
+	data_to_send[_cnt++]=BYTE0(data.DATA4);
+//  _temp=(int32_t)data.DATA5;
+//	data_to_send[_cnt++]=BYTE3(_temp);
+//	data_to_send[_cnt++]=BYTE2(_temp);
+//	data_to_send[_cnt++]=BYTE1(_temp);
+//	data_to_send[_cnt++]=BYTE0(_temp);
+//  _temp=(int32_t)data.DATA6;
+//	data_to_send[_cnt++]=BYTE3(_temp);
+//	data_to_send[_cnt++]=BYTE2(_temp);
+//	data_to_send[_cnt++]=BYTE1(_temp);
+//	data_to_send[_cnt++]=BYTE0(_temp);
+//  _temp=(int32_t)data.DATA7;
+//	data_to_send[_cnt++]=BYTE3(_temp);
+//	data_to_send[_cnt++]=BYTE2(_temp);
+//	data_to_send[_cnt++]=BYTE1(_temp);
+//	data_to_send[_cnt++]=BYTE0(_temp);
+//  _temp=(int32_t)data.DATA8;
+//	data_to_send[_cnt++]=BYTE3(_temp);
+//	data_to_send[_cnt++]=BYTE2(_temp);
+//	data_to_send[_cnt++]=BYTE1(_temp);
+//	data_to_send[_cnt++]=BYTE0(_temp);
+//  _temp=(int32_t)data.DATA9;
+//	data_to_send[_cnt++]=BYTE3(_temp);
+//	data_to_send[_cnt++]=BYTE2(_temp);
+//	data_to_send[_cnt++]=BYTE1(_temp);
+//	data_to_send[_cnt++]=BYTE0(_temp);
 	data_to_send[3] = _cnt-4;
 	for(int i=0;i<_cnt;i++)
 		sum += data_to_send[i];

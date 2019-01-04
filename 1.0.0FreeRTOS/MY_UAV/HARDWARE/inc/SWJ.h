@@ -33,10 +33,9 @@ typedef struct
 }USER;
 
 
-extern u8 DataToSend; 
-extern USER User_Data;
+extern u8 dataType; 
+
 //void ANO_DT_Send_Status(float angle_rol, float angle_pit, float angle_yaw, s32 alt, u8 fly_model, u8 armed);
 void Send_RCData(HMI_data data,float angle_rol, float angle_pit, float angle_yaw, s32 alt, u8 fly_model, u8 armed);
-void Uart1_Put_Buf(unsigned char *DataToSend , u8 data_num);
 void Send_USERDATA(USER data);
 #endif

@@ -27,8 +27,10 @@ void sensorsInit()
 }
 void sensorsQueueInit()
 {
-   gyroDataQueue = xQueueCreate(1,sizeof(Axis3f));
-   accDataQueue = xQueueCreate(1,sizeof(Axis3f));
+    gyroDataQueue = xQueueCreate(1,sizeof(Axis3f));
+    accDataQueue = xQueueCreate(1,sizeof(Axis3f));
+    magDataQueue = xQueueCreate(1,sizeof(Axis3f));
+    atltitudeDataQueue = xQueueCreate(1,sizeof(float));
    //baroDataQueue = xQueueCreate(1,sizeof(motionProcessing));
    
 }

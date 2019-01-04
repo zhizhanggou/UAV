@@ -310,7 +310,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>0</Optim>
+            <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -573,6 +573,11 @@
               <FileName>ms5611.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\src\ms5611.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\src\GPS.c</FilePath>
             </File>
           </Files>
         </Group>

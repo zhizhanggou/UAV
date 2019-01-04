@@ -30,7 +30,7 @@ bool isAltitudeDataReady=false;
 static float Alt_Offset_m = 0;
 
 //
-#define ALT_OFFSET_INIT_NUM 50	
+#define ALT_OFFSET_INIT_NUM 100	
 
 static float Alt_offset_Pa=0; //存放着0米(离起飞所在平面)时 对应的气压值  这个值存放上电时的气压值 
 uint16_t  AltGetOffsetCnt=0;

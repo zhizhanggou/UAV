@@ -22,6 +22,11 @@
 #define UATR1_DMA_TX_BUSY 1
 #define UATR1_DMA_TX_FINISH 0
 
+
+
+#define EN_USART2_RX 1
+#define GPS_RX_BUFFER_SIZE 1
+
 	  	
 extern u8  USART_RX_BUF[USART_REC_LEN]; //接收缓冲,最大USART_REC_LEN个字节.末字节为换行符 
 extern u16 USART_RX_STA;         		//接收状态标记	
@@ -35,6 +40,8 @@ extern u8 aRxBuffer[RXBUFFERSIZE];//HAL库USART接收Buffer
 void uart_init(u32 bound);
 void UART1DMA_Config(DMA_Stream_TypeDef *DMA_Streamx,u32 chx);
 void UART1DMA_USART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+void UART2DMA_Config(DMA_Stream_TypeDef *DMA_Streamx,u32 chx);
+void gps_uart_init(u32 bound);
 uint8_t getUart1TransmitFinishFlag(void);
 
 #endif

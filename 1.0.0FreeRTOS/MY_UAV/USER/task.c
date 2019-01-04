@@ -28,7 +28,7 @@ void vTaskAttitudeAlgorithm(void *pvParameters)
 				{
 					
 				}
-				if(xQueueReceive(atltitudeDataQueue, &data.magDataProcessed, 0)==pdTRUE)
+				if(xQueueReceive(magDataQueue, &data.magDataProcessed, 0)==pdTRUE)
 				{
 					
 				}
@@ -120,12 +120,12 @@ void vTaskReadSenser(void *pvParameters)
 /******************************************
 参数上传上位机任务
 ******************************************/
-
+USER userData;
 void vTaskDataUpload(void *pvParameters)
 {
 		EventBits_t uxBits;
 		HMI_data mpu9250_data;
-		USER data;
+
 		while(1)
 		{
 			uxBits = xEventGroupWaitBits(xUploadEventGroup, /* 事件标志组句柄 */
@@ -135,7 +135,7 @@ void vTaskDataUpload(void *pvParameters)
                                  portMAX_DELAY); /* 等待延迟时间 */
 			if((uxBits & ifDataReadyUpLoad)==ifDataReadyUpLoad)
 			{
-        if(DataToSend==STATUS_DATA)
+        if(dataType==STATUS_DATA)
         {
             mpu9250_data.ACC_X=accOriginalData.x;
             mpu9250_data.ACC_Y=accOriginalData.y;
@@ -158,18 +158,13 @@ void vTaskDataUpload(void *pvParameters)
          
             Send_RCData(mpu9250_data,flightStatus.attitude.x,flightStatus.attitude.y,flightStatus.attitude.z,MS5611_Altitude,0,0);
         }
-        else if(DataToSend==USER_DATA)
+        else if(dataType==USER_DATA)
         {
-            data.DATA1=MS5611_Altitude;
-            data.DATA2=0.0f;
-            data.DATA3=0.0f;
-            data.DATA4=0.0f;
-            data.DATA5=0.0f;
-            data.DATA6=0.0f;
-            data.DATA7=0.0f;
-            data.DATA8=0.0f;
-            data.DATA9=0.0f;
-            Send_USERDATA(data);
+            userData.DATA1=MS5611_Altitude;
+            userData.DATA2=0.0f;
+            userData.DATA3=0.0f;
+            userData.DATA4=0.0f;
+            Send_USERDATA(userData);
         }
 
 			}
